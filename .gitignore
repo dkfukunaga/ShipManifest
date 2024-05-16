@@ -30,3 +30,6 @@
 *.exe
 *.out
 *.app
+
+# Librecalc lock files
+*.~lock.*
