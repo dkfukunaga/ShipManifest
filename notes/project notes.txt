@@ -1,0 +1,353 @@
+	ship_registry	ship_name	ship_flag	ship_captain	ship_engineer	ship_class_index
+
+
+
+
+
+	ship_class	ship_type	ship_mass	ship_core	ship_flt	ship_drive	ship_sensor	ship_computer	ship_barrier	ship_armor	ship_hull	ship_weapon_count	ship_weapons	
+
+
+
+https://www.plantuml.com/plantuml/uml/SyfFKj2rKt3CoKnELR1Io4ZDoSa70000
+
+/png/bLJBRjGm5DtdAxA4elx0gAeAL0K9sBILM4OtzarYuSV8ZxO3uj-nVMkF4pKBPZFsFV4vzttZF5WVbEmwvsrWldzOnF4UPn6lf_vFryUVYwPXaZ3tXmpVnUCP43oQWtPYriXxeNs6lE5cC7v16z789VJS_Ls9V3RgQ3Hgxrvbm2fZ1tywOdpoCLqUuxa8IJxCgCa3bFmBweiCMGJcJLAvfnEPNHW7RiKJfXTXl4r7GYOlAtBt-9sGZM-tEA5sM3nRWfJzWM8hZZRt4QmLM2nhffy8CSf2f8CQ5eIdKvioje2jg48kWjg5fPWN_oQQQOTdaejVa325JAGxOAPy0zjKIuAhKO32MjLiCTCa65gNh8knb1PcyRaOQXfBVR_6SoqlExV2OTCR6UUb78UsEeHLnzjq9-TPyZWRTzssfSyFgxOlFYdG7Etw2UfPQDnQIUjmpbHE7-gWwi3GhORTmHZV0_ElRsl4_TNL20wlhtUzzjHhjVAAj4it7irpqukPlOn6ZoyUDM_LI6GAA8VWiA4nJsZBc8p6oCfLfccN31X3YHQyC6bU9sc0A1Le394MHY65FpLYxeZ8DpxJRExgq23Jfqqoqc768QfZqQwCTNFiKYfu6LRJNDe4zOgIfE08J7ZJVif1GP977bYDl_MXxhLT7rBYzDnmneYunbhZqbZKwW_YDz936kHctizhWOp2EI4nlT_q7Z7zV-Evf7re7DdsNxudqe6hDg99s5gYccJGStl_CAE_pTbynuNpe1aI-dxJ9vyGL4bc2OKYm6aQ6jhwuflGw0NRF7e5Vr2QtcPi-pJTKnP_KRMep6NDdMlLvGraBY_Fou5C5ydKRfskVf2mkYesvirwt89r1MwHTczshIx1PKkjwRFVzTerz0afYUleFn6rpT3TeEP1oNy0
+
+
+GameData.h
+----
+typedef unsigned char byte
+// file io function prototypes
+
+
+
+
+ShipRegistry
+----
+2	short		flag		// 3 digit country code
+2	short		type		// 1 digit civ/mil, 3 digit ship type code
+4	int			ship_id		// unique 8 digit id
+
+
+READ WRITE FILES:			// rebuild on exit to remove deleted entries
+
+	SHIPS - Ships.dat
+	----
+	FileHeader
+	ShipTable
+	EOF
+
+	SHIP STRINGS - ShipStrings.dat
+	----
+	FileHeader
+	ShipStringTable			// ship names
+	EOF
+
+	GAME CHARACTERS - GameCharacters.dat
+	----
+	FileHeader
+	GameCharacterTable		// character names
+	EOF
+
+
+READ ONLY FILES:
+
+	SHIP CLASSES - ShipClasses.dat
+	----
+	FileHeader
+	ShipClassTable
+	StringTable
+	EOF
+
+	SHIP COMPONENTS - ShipComponents.dat
+	----
+	ComponentTable
+		ReactorSubTable
+		SublightSubTable
+		FTLSubTable
+		ShieldGenSubTable
+		ArmorTypeSubTable
+	StringTable
+	EOF
+
+	SHIP WEAPONS - ShipWeapons.dat
+	----
+	ShipWeaponsTable
+	WeaponTable
+		BeamSubTable
+		KineticSubTable
+		MissileSubTable
+	StringTable
+	EOF
+
+
+MagicBytes:	 		CA 70 CA FE
+eof: 				CA 70 0E 0F
+
+FileType:			"SHIP"			// Ship table
+					"SSTR"			// ShipStrings table
+					"GCHR"			// GameCharacter table
+					"SCLS"			// ShipClass table
+					"COMP"			// ShipComponents tables
+					"WEAP"			// ShipWeapons tables
+
+
+TableType:			"SHP"			// ShipTable
+					"SHS"			// ShipStringTable
+					"GCH"			// GameCharacterTable
+					"SCL"			// ShipClassTable
+					"SWP"			// ShipWeaponsTable
+					"CMP"			// ComponentTable
+					"rct"			// 		ReactorSubTable
+					"sbl"			// 		SublightSubTable
+					"ftl"			// 		FTLSubTable
+					"shd"			// 		ShieldGenSubTable
+					"WPN"			// WeaponTable
+					"bem"			// 		BeamSubTable
+					"kin"			// 		KineticSubTable
+					"mis"			// 		MissileSubTable
+					"STR"			// StringTable
+
+
+typedef unsigned char byte
+
+
+
+
+
+
+FileEOF
+----
+4	byte[4]			feof			// CA 70 0E 0F
+----
+4
+
+
+FILE HEADER
+----
+4	byte[4]			file_mag		// CA 70 CA FE
+4	char[4]			file_type
+1	char			file_ver		// 1
+1	bool			file_rbld		// if true, rebuild on exit
+2	short			str_offs		// 0 for none
+2	short			feof_offs		// feof_oofs + 4 = file size
+2	char[2]			head_pd
+----
+16
+
+
+TABLE HEADER
+----
+3	TableType		tbl_type
+1	byte			rec_size		// 0 indicates variable size
+2	short			rec_count
+2	short			tbl_size
+----
+8
+
+
+SHIP RECORD
+TableHeader							// tbl_type = "SHP"
+									// rec_size = 0
+----
+8	long			ship_reg		// -1 to indicate deletion
+2	short			ship_name		// StringTable index
+2	short			ship_capt		// StringTable index
+2	short			ship_engi		// StringTable index
+2	short			ship_class		// ShipClassTable index
+----
+16
+
+
+SHIP STRING RECORD
+TableHeader							// tbl_type = "SHS"
+									// rec_size = 0
+----
+1	byte			str_len			// -1 to indicate deletion
+*	char[]			str
+----
+1+
+
+
+GAME CHARACTER RECORD
+TableHeader							// tbl_type = "GCH"
+									// rec_size = 0
+----
+1	byte			str_len			// -1 to indicate deletion
+*	char[]			str
+----
+1+
+
+
+SHIP CLASS RECORD
+TableHeader							// tbl_type = "CLS"
+----
+2	short			class_name		// StringTable index
+2	short			class_off
+2	short			class_crew
+4	ShipCategory	class_cat
+4	int				class_hull
+4	int				class_arm
+4	int				class_barr
+2	short			class_reac		// ComponentTable index
+2	short			class_subl		// ComponentTable index
+2	short			class_ftl		// ComponentTable index
+2	short			class_shld		// ComponentTable index
+2	short			class_weaps		// ShipWeaponsTable index
+----
+32
+
+
+SHIP COMPONENT TABLE HEADER
+TableHeader							// tbl_type = "CMP"
+									// rec_size = 0
+----
+2	short			reac_offs
+2	short			subl_offs
+2	short			ftl_offs
+2	short			shld_offs
+----
+8
+
+REACTOR SUB-TABLE RECORD
+TableHeader							// tbl_type = "RCT"
+----
+2	short			reac_name		// StringTable index
+1	char			reac_tier
+1	char			reac_pd
+4	int				reac_mass
+4	int				reac_power
+4	int				reac_fuel
+----
+16
+
+
+SUBLIGHT SUB-TABLE RECORD
+TableHeader							// tbl_type = "SBL"
+----
+2	short			subl_name		// StringTable index
+1	char			subl_tier
+1	char			subl_pd
+4	int				subl_mass
+4	int				subl_power
+4	float			subl_acc
+4	int				subl_manu
+4	int				subl_speed
+----
+24
+
+
+FTL SUB-TABLE RECORD
+TableHeader							// tbl_type = "FTL"
+----
+2	short			ftl_name		// StringTable index
+1	char			ftl_tier
+1	char			ftl_pd
+4	int				ftl_mass
+4	int				ftl_power
+4	float			ftl_charge
+----
+16
+
+
+SHIELD GEN SUB-TABLE RECORD
+TableHeader							// tbl_type = "SGN"
+----
+2	short			shld_name		// StringTable index
+1	char			shld_tier
+1	char			shld_pd
+4	int				shld_mass
+4	int				shld_power
+4	int				shld_max
+4	float			shld_charge
+4	int				shld_cap
+----
+24
+
+
+SHIP WEAPONS TABLE RECORD
+TableHeader							// tbl_type = "SHW"
+----
+1	char			lt_count
+2*	short			lt_weaps[]		// WeaponTablte index
+1	char			md_count
+2*	short			md_weaps[]		// WeaponTablte index
+1	char			hv_count
+2*	short			hv_weaps[]		// WeaponTablte index
+1	char			ms_count
+2	short			ms_weap			// WeaponTablte index
+----
+12+
+
+
+SHIP WEAPON TABLE HEADER
+TableHeader							// tbl_type = "WPN"
+									// rec_size = 0
+----
+2	short			beam_offs
+2	short			kinetic_offs
+2	short			missile_offs
+2	char[2]			weap_pd
+----
+8
+
+
+BEAM SUB-TABLE RECORD
+TableHeader							// tbl_type = "BEM"
+----
+2	short			beam_name		// StringTable index
+1	char			beam_tier
+1	char			beam_pd
+4	WeaponSize		beam_size
+4	int				beam_power
+4	int				beam_dmg
+4	int				beam_rate
+4	int				beam_range
+4	int				eff_range		// beam specific
+----
+24
+
+
+KINETIC SUB-TABLE RECORD
+TableHeader							// tbl_type = "KIN"
+----
+2	short			kin_name		// StringTable index
+1	char			kin_tier
+1	char			kin_pd
+4	WeaponSize		kin_size
+4	int				kin_power
+4	int				kin_dmg
+4	int				kin_rate
+4	int				kin_range
+4	int				kin_ammo
+----
+24
+
+
+MISSILE SUB-TABLE RECORD
+TableHeader							// tbl_type = "MIS"
+----
+2	short			misl_name		// StringTable index
+1	char			misl_tier
+1	char			misl_pd
+4	WeaponSize		misl_size
+4	int				misl_power
+4	int				misl_dmg
+4	int				misl_rate
+4	int				misl_range
+4	int				misl_speed
+4	float			misl_tracking
+4	int				misl_hull
+----
+32
+
+
+STRING RECORD
+TableHeader							// tbl_type = "STR"
+----
+1	byte			str_len			// -1 to indicate deletion
+*	char[]			str
+----
+1+
+
+
+
