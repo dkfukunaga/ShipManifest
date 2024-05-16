@@ -108,7 +108,6 @@ TableType:			"SHP"			// ShipTable
 					"STR"			// StringTable
 
 
-typedef unsigned char byte
 
 
 
@@ -138,7 +137,7 @@ FILE HEADER
 TABLE HEADER
 ----
 3	TableType		tbl_type
-1	byte			rec_size		// 0 indicates variable size
+1	unsigned char	rec_size		// 0 indicates variable size
 2	short			rec_count
 2	short			tbl_size
 ----
@@ -162,7 +161,7 @@ SHIP STRING RECORD
 TableHeader							// tbl_type = "SHS"
 									// rec_size = 0
 ----
-1	byte			str_len			// -1 to indicate deletion
+1	unsigned char	str_len			// -1 to indicate deletion
 *	char[]			str
 ----
 1+
@@ -172,7 +171,7 @@ GAME CHARACTER RECORD
 TableHeader							// tbl_type = "GCH"
 									// rec_size = 0
 ----
-1	byte			str_len			// -1 to indicate deletion
+1	unsigned char	str_len			// -1 to indicate deletion
 *	char[]			str
 ----
 1+
@@ -344,7 +343,7 @@ TableHeader							// tbl_type = "MIS"
 STRING RECORD
 TableHeader							// tbl_type = "STR"
 ----
-1	byte			str_len			// -1 to indicate deletion
+1	unsigned char	str_len			// -1 to indicate deletion
 *	char[]			str
 ----
 1+
