@@ -33,3 +33,6 @@
 
 # Librecalc lock files
 *.~lock.*
+
+# .vscode files
+.vscode*
