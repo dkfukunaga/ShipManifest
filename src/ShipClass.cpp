@@ -7,16 +7,16 @@
 
 
 enum class ShipCategory {
-    shuttle,
-    yacht,
-    freighter,
-    transport,
-    fighter,
-    corvette,
-    frigate,
-    destroyer,
-    light_cruiser,
-    heavy_cruiser,
-    battle_cruiser,
-    carrier
+    shuttle = 101,
+    yacht = 121,
+    freighter = 215,
+    transport = 251,
+    fighter = 181,
+    corvette = 223,
+    frigate = 311,
+    destroyer = 332,
+    light_cruiser = 401,
+    heavy_cruiser = 501,
+    battle_cruiser = 601,
+    carrier = 822
 };
