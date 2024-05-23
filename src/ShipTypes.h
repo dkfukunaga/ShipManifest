@@ -41,13 +41,6 @@ enum class ShipSize : unsigned char {
     capital_h       = 21
 };
 
-enum class ShipFTL : char {
-    system = 'S',
-    gate = 'G',
-    restricted = 'R',
-    unrestricted = 'U'
-};
-
 enum class ShipFlagCode : unsigned char {
     union_of_earth = 1,
     pacifica_free_states = 2,
@@ -56,6 +49,13 @@ enum class ShipFlagCode : unsigned char {
     vanaheim_alliance = 5,
     shinwa_confederacy = 6,
     sanbao_republic = 7
+};
+
+enum class ShipFTL : char {
+    system = 'S',
+    gate = 'G',
+    restricted = 'R',
+    unrestricted = 'U'
 };
 
 enum class ShipType : char {

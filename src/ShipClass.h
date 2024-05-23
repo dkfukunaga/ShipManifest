@@ -11,7 +11,6 @@
 #include "WeaponTypes.h"
 #include <string>
 
-enum class ShipCategory;
 
 struct ShipComponents {
     Reactor         *reactor;
@@ -39,7 +38,7 @@ struct ShipClass {
     string          name;
     short           officers;
     short           crew;
-    ShipCategory    ship_type;
+    ShipSize        size;
     ShipComponents  components;
     ShipDefenses    defenses;
     ShipWeapons     weapons;
