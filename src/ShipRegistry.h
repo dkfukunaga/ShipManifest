@@ -13,10 +13,11 @@
 using namespace std;
 
 
-struct ShipFlag {
+class ShipFlag {
 private:
     // private static member
     static const string         flags[];
+    // field
     int             index;
 public:
     // member variable

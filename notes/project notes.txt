@@ -48,6 +48,12 @@ READ WRITE FILES:			// rebuild on exit to remove deleted entries
 	GameCharacterTable		// character names
 	EOF
 
+(GameCharacter ideas)
+----
+surname
+givenName
+rank
+
 
 READ ONLY FILES:
 
@@ -100,7 +106,6 @@ TableType:			"SHP"			// ShipTable
 					"rct"			// 		ReactorSubTable
 					"sbl"			// 		SublightSubTable
 					"ftl"			// 		FTLSubTable
-					"shd"			// 		ShieldGenSubTable
 					"WPN"			// WeaponTable
 					"bem"			// 		BeamSubTable
 					"kin"			// 		KineticSubTable
@@ -181,16 +186,16 @@ SHIP CLASS RECORD
 TableHeader							// tbl_type = "CLS"
 ----
 2	short			class_name		// StringTable index
-2	short			class_off
-2	short			class_crew
-4	ShipCategory	class_cat
+4	short			class_off
+4	short			class_crew
+1	ShipSize		class_size
+1	char			pd
 4	int				class_hull
 4	int				class_arm
 4	int				class_barr
 2	short			class_reac		// ComponentTable index
 2	short			class_subl		// ComponentTable index
 2	short			class_ftl		// ComponentTable index
-2	short			class_shld		// ComponentTable index
 2	short			class_weaps		// ShipWeaponsTable index
 ----
 32
@@ -246,21 +251,6 @@ TableHeader							// tbl_type = "FTL"
 4	float			ftl_charge
 ----
 16
-
-
-SHIELD GEN SUB-TABLE RECORD
-TableHeader							// tbl_type = "SGN"
-----
-2	short			shld_name		// StringTable index
-1	char			shld_tier
-1	char			shld_pd
-4	int				shld_mass
-4	int				shld_power
-4	int				shld_max
-4	float			shld_charge
-4	int				shld_cap
-----
-24
 
 
 SHIP WEAPONS TABLE RECORD

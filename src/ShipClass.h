@@ -16,7 +16,6 @@ struct ShipComponents {
     Reactor         *reactor;
     SubDrive        *sub_drive;
     FTLDrive        *ftl_drive;
-    ShieldGen       *shield_gen;
 };
 
 struct ShipDefenses {
@@ -36,8 +35,8 @@ struct ShipWeapons {
 
 struct ShipClass {
     string          name;
-    short           officers;
-    short           crew;
+    int             officers;
+    int             crew;
     ShipSize        size;
     ShipComponents  components;
     ShipDefenses    defenses;

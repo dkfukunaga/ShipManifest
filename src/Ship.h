@@ -15,8 +15,7 @@ using namespace std;
 class Ship {
 public:
     string          getName() const;
-    string          getRegistryString() const;
-    long            getRegistryNum() const;
+    string          getRegistry() const;
     string          getCommander() const;
     string          getEngineer() const;
     ShipClass*      getShipClass() const;
