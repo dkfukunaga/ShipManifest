@@ -6,15 +6,12 @@
 #define SHIP_REGISTRY_H
 
 
+#include "ShipTypes.h"
 #include <string>
 
 
 using namespace std;
 
-enum class ShipFlagCode;
-enum class ShipSize;
-enum class ShipFTL;
-enum class ShipType;
 
 struct ShipFlag {
 private:

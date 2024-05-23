@@ -4,6 +4,7 @@
 #ifndef SHIP_CLASS_H
 #define SHIP_CLASS_H
 
+#include "ShipTypes.h"
 #include "Component.h"
 #include "ComponentTypes.h"
 #include "Weapon.h"
