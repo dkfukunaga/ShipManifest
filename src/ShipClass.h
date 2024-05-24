@@ -6,9 +6,7 @@
 
 #include "ShipTypes.h"
 #include "Component.h"
-#include "ComponentTypes.h"
 #include "Weapon.h"
-#include "WeaponTypes.h"
 #include <string>
 
 
@@ -38,9 +36,9 @@ struct ShipClass {
     int             officers;
     int             crew;
     ShipSize        size;
-    ShipComponents  components;
-    ShipDefenses    defenses;
-    ShipWeapons     weapons;
+    ShipComponents  default_components;
+    ShipDefenses    default_defenses;
+    ShipWeapons     default_weapons;
 };
 
 

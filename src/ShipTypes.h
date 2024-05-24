@@ -69,6 +69,12 @@ enum class ShipType : char {
 };
 
 
+// weapon sizes
+enum class WeaponSize {
+    small   = 1,
+    medium  = 2,
+    large   = 3
+};
 
 
 #endif

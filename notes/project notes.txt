@@ -158,8 +158,14 @@ TableHeader							// tbl_type = "SHP"
 2	short			ship_capt		// StringTable index
 2	short			ship_engi		// StringTable index
 2	short			ship_class		// ShipClassTable index
+4	int				ship_arm
+4	int				ship_barr
+2	short			ship_reac		// ComponentTable index
+2	short			ship_subl		// ComponentTable index
+2	short			ship_ftl		// ComponentTable index
+2	short			ship_weaps		// ShipWeaponsTable index
 ----
-16
+32
 
 
 SHIP STRING RECORD
@@ -220,9 +226,11 @@ TableHeader							// tbl_type = "RCT"
 1	char			reac_pd
 4	int				reac_mass
 4	int				reac_power
-4	int				reac_fuel
+4	int				reac_pow_gen
+4	int				reac_fuel_rt
+4	float			reac_rel
 ----
-16
+24
 
 
 SUBLIGHT SUB-TABLE RECORD
@@ -248,9 +256,11 @@ TableHeader							// tbl_type = "FTL"
 1	char			ftl_pd
 4	int				ftl_mass
 4	int				ftl_power
-4	float			ftl_charge
+4	float			ftl_chrg_rt
+4	ShipSize		ftl_max_sz
+4	int				ftl_fuel_use
 ----
-16
+24
 
 
 SHIP WEAPONS TABLE RECORD
