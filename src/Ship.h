@@ -34,7 +34,7 @@ struct ShipWeapons {
 };
 
 struct ShipClass {
-    string          name;
+    std::string     name;
     int             officers;
     int             crew;
     ShipSize        size;
@@ -46,9 +46,9 @@ struct ShipClass {
 
 struct Ship {
     ShipRegistry    registry;
-    string          name;
-    string          commander;
-    string          engineer;
+    std::string     name;
+    std::string     commander;
+    std::string     engineer;
     ShipClass*      ship_class = nullptr;
     ShipDefenses    defenses;
     ShipComponents  components;

@@ -2,13 +2,14 @@
 
 
 #include "Weapon.h"
+#include <string>
 #include <cmath>
 #include <typeinfo>
 
 // ******************** WEAPON ********************
 
 // Weapon getters
-string      Weapon::getName() const             { return name; }
+std::string Weapon::getName() const             { return name; }
 char        Weapon::getTier() const             { return tier; }
 WeaponSize  Weapon::getSize() const             { return size; }
 int         Weapon::getBaseDamage() const       { return base_damage; }
@@ -17,7 +18,7 @@ int         Weapon::getRange() const            { return range; }
 int         Weapon::getPower() const            { return power; }
 
 // Weapon setters
-void        Weapon::setName(string nm)          { name = nm; }
+void        Weapon::setName(std::string nm)          { name = nm; }
 void        Weapon::setTier(char tr)            { tier = tr; }
 void        Weapon::setSize(WeaponSize sz)      { size = sz; }
 void        Weapon::setBaseDamage(int bs_dmg)   { base_damage = bs_dmg; }
@@ -40,7 +41,7 @@ bool        Weapon::operator!=(const Weapon &w) const {
 }
 
 // constructors
-Weapon::Weapon(string nm, char tr, WeaponSize ws, int bd, int fr, int r, int p) :
+Weapon::Weapon(std::string nm, char tr, WeaponSize ws, int bd, int fr, int r, int p) :
     name(nm),
     tier(tr),
     size(ws),
@@ -94,7 +95,7 @@ int         Beam::calcDamage(double dist)       {
 }
 
 // constructors
-Beam::Beam(string nm, char tr, WeaponSize ws, int bd, int fr, int r, int p, int er) :
+Beam::Beam(std::string nm, char tr, WeaponSize ws, int bd, int fr, int r, int p, int er) :
     Weapon(nm, tr, ws, bd, fr, r, p),
     eff_range(er) { }
 
@@ -133,7 +134,7 @@ bool        Kinetic::operator!=(const Kinetic &k) const {
 }
 
 // constructors
-Kinetic::Kinetic(string nm, char tr, WeaponSize ws, int bd, int fr, int r, int p, int ma, int ca) :
+Kinetic::Kinetic(std::string nm, char tr, WeaponSize ws, int bd, int fr, int r, int p, int ma, int ca) :
     Weapon(nm, tr, ws, bd, fr, r, p),
     max_ammo(ma),
     curr_ammo(ca) { }
@@ -174,7 +175,7 @@ bool        Missile::operator!=(const Missile &m) const {
 }
 
 // constructors
-Missile::Missile(string nm, char tr, WeaponSize ws, int bd, int fr, int r, int p,
+Missile::Missile(std::string nm, char tr, WeaponSize ws, int bd, int fr, int r, int p,
     int spd, float t, int h) :
     Weapon(nm, tr, ws, bd, fr, r, p),
     speed(spd),

@@ -8,26 +8,25 @@
 #include "ShipTypes.h"
 #include <string>
 
-using namespace std;
 
 
 // Component base abstract class
 class Component {
 protected:
-    string              name;
+    std::string         name;
     char                tier;
     int                 mass;
     int                 power;
 
 public:
     // getters
-    string              getName() const;
+    std::string         getName() const;
     char                getTier() const;
     int                 getMass() const;
     int                 getPower() const;
 
     // setters
-    void                setName(string nm);
+    void                setName(std::string nm);
     void                setTier(char tr);
     void                setMass(int m);
     void                setPower(int pow);
@@ -40,7 +39,7 @@ public:
     virtual void        use() = 0;
 
     // constructors
-    Component(string nm, char tr, int m, int p);
+    Component(std::string nm, char tr, int m, int p);
     Component();
 };
 
@@ -71,7 +70,7 @@ public:
     void            use() override;
 
     // constructors
-    Reactor(string nm, char tr, int m, int p, int pg, int fr, float r);
+    Reactor(std::string nm, char tr, int m, int p, int pg, int fr, float r);
     Reactor(Reactor &other);
     Reactor();
 };
@@ -101,7 +100,7 @@ public:
     void            use() override;
 
     // constructors
-    SubDrive(string nm, char tr, int m, int p, float acc, int mn, int spd);
+    SubDrive(std::string nm, char tr, int m, int p, float acc, int mn, int spd);
     SubDrive(SubDrive &other);
     SubDrive();
 };
@@ -131,7 +130,7 @@ public:
     void            use() override;
 
     // constructors
-    FTLDrive(string nm, char tr, int m, int p, int cr, ShipSize sz, int fu);
+    FTLDrive(std::string nm, char tr, int m, int p, int cr, ShipSize sz, int fu);
     FTLDrive(FTLDrive &other);
     FTLDrive();
 };

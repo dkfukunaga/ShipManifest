@@ -3,20 +3,20 @@
 
 #include "Component.h"
 #include <typeinfo>
+#include <string>
 
-using namespace std;
 
 
 // *************** COMPONENT BASE CLASS ***************
 
 // getters
-string      Component::getName() const          { return name; }
+std::string Component::getName() const          { return name; }
 char        Component::getTier() const          { return tier; }
 int         Component::getMass() const          { return mass; }
 int         Component::getPower() const         { return power; }
 
 // setters
-void        Component::setName(string nm)       { name = nm; }
+void        Component::setName(std::string nm)       { name = nm; }
 void        Component::setTier(char tr)         { tier = tr; }
 void        Component::setMass(int m)           { mass = m; }
 void        Component::setPower(int pow)        { power = pow; }
@@ -33,7 +33,7 @@ bool        Component::operator!=(const Component &c) const {
 }
 
 // constructors
-Component::Component(string nm, char tr, int m, int p) :
+Component::Component(std::string nm, char tr, int m, int p) :
     name(nm),
     tier(tr),
     mass(m),
@@ -72,7 +72,7 @@ void        Reactor::use()                      {
 }
 
 // constructors
-Reactor::Reactor(string nm, char tr, int m, int p, int pg, int fr, float r) :
+Reactor::Reactor(std::string nm, char tr, int m, int p, int pg, int fr, float r) :
     Component(nm, tr, m, p),
     power_gen(pg),
     fuel_rate(fr),
@@ -120,7 +120,7 @@ void        SubDrive::use()                     {
 }
 
 // constructors
-SubDrive::SubDrive(string nm, char tr, int m, int p, float acc, int mn, int spd) :
+SubDrive::SubDrive(std::string nm, char tr, int m, int p, float acc, int mn, int spd) :
     Component(nm, tr, m, p),
     accel(acc),
     maneuver(mn),
@@ -169,7 +169,7 @@ void        FTLDrive::use()                     {
 }
 
 // constructors
-FTLDrive::FTLDrive(string nm, char tr, int m, int p, int cr, ShipSize sz, int fu) :
+FTLDrive::FTLDrive(std::string nm, char tr, int m, int p, int cr, ShipSize sz, int fu) :
     Component(nm, tr, m, p),
     charge_rate(cr),
     max_size(sz),

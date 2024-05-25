@@ -4,9 +4,7 @@
 #ifndef SHIP_TYPES_H
 #define SHIP_TYPES_H
 
-#include <string>
 
-using namespace std;
 
 enum class ShipSize : unsigned char {
     // unmanned

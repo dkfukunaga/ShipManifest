@@ -10,24 +10,22 @@
 #include <string>
 
 
-using namespace std;
-
 
 class ShipFlag {
 private:
     // private static member
-    static const string         flags[];
+    static const std::string flags[];
     // member variables
     ShipFlagCode    flag_code;
 
 public:
     // getter
     ShipFlagCode    getFlagCode() const;
-    string          getFlag() const;
+    std::string     getFlag() const;
 
     // setters
     void            setFlagCode(ShipFlagCode fc);
-    void            setFlag(string f);
+    void            setFlag(std::string f);
 
     // // operators
     // bool            operator==(const ShipFlag &s) const;
@@ -38,12 +36,12 @@ public:
     // bool            operator>=(const ShipFlag &s) const;
 
     // constructors
-    ShipFlag(string f);
+    ShipFlag(std::string f);
     ShipFlag(ShipFlagCode fc);
     ShipFlag();
 };
 
-// store ship registry data and generate VIC string
+// store ship registry data and generate VIC std::string
 // "FLG SZFT XXXX XXXX"
 class ShipRegistry {
 private:
@@ -54,8 +52,8 @@ private:
     int             ship_uid;           // 8 digit unique id
 
 public:
-    // generate string of Vessel Identification Code
-    string          getVIC() const;
+    // generate std::string of Vessel Identification Code
+    std::string          getVIC() const;
 
     // getters
     ShipFlag        getShipFlag() const;

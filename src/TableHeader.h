@@ -4,7 +4,6 @@
 #ifndef TABLE_HEADER_H
 #define TABLE_HEADER_H
 
-#include <string>
 
 // Three character codes to indicate the type of table.
 // Tables are in all caps; sub-tables are in all lower case.

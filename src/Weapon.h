@@ -8,13 +8,11 @@
 #include "ShipTypes.h"
 #include <string>
 
-using namespace std;
-
 
 // Weapon base abstract class
 class Weapon {
 protected:
-    string          name;
+    std::string     name;
     char            tier;
     WeaponSize      size;
     int             base_damage;
@@ -24,7 +22,7 @@ protected:
 
 public:
     // getters
-    string          getName() const;
+    std::string     getName() const;
     char            getTier() const;
     WeaponSize      getSize() const;
     int             getBaseDamage() const;
@@ -33,7 +31,7 @@ public:
     int             getPower() const;
 
     // setters
-    void            setName(string nm);
+    void            setName(std::string nm);
     void            setTier(char tr);
     void            setSize(WeaponSize sz);
     void            setBaseDamage(int bs_dmg);
@@ -49,7 +47,7 @@ public:
     virtual int     getDamage(double dist) = 0;
 
     // constructors
-    Weapon(string nm, char tr, WeaponSize ws, int bd, int fr, int r, int p);
+    Weapon(std::string nm, char tr, WeaponSize ws, int bd, int fr, int r, int p);
     Weapon();
 };
 
@@ -80,7 +78,7 @@ public:
     int             getDamage(double dist) override;
 
     // constructors
-    Beam(string nm, char tr, WeaponSize ws, int bd, int fr, int r, int p, int er);
+    Beam(std::string nm, char tr, WeaponSize ws, int bd, int fr, int r, int p, int er);
     Beam(Beam &other);
     Beam();
 };
@@ -108,7 +106,7 @@ public:
     int             getDamage(double dist) override;
 
     // constructors
-    Kinetic(string nm, char tr, WeaponSize ws, int bd, int fr, int r, int p, int ma, int ca);
+    Kinetic(std::string nm, char tr, WeaponSize ws, int bd, int fr, int r, int p, int ma, int ca);
     Kinetic(Kinetic &other);
     Kinetic();
 };
@@ -138,7 +136,7 @@ public:
     int             getDamage(double dist) override;
 
     // constructors
-    Missile(string nm, char tr, WeaponSize ws, int bd, int fr, int r, int p, int spd, float t, int h);
+    Missile(std::string nm, char tr, WeaponSize ws, int bd, int fr, int r, int p, int spd, float t, int h);
     Missile(Missile &other);
     Missile();
 };

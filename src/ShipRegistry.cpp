@@ -4,30 +4,26 @@
 #include "ShipRegistry.h"
 #include <string>
 
-using namespace std;
-
-
-
 
 // ShipFlag 3 letter codes
-const string    ShipFlag::flags[] =    {"UNK",   // unknown
-                                        "UOE",   // Union of Earth
-                                        "PFS",   // Pacifica Free States
-                                        "FSC",   // Federated States of Cobol
-                                        "NSA",   // New Sumerican Ascandency
-                                        "VAN",   // Vanheim Alliance
-                                        "SWC",   // Shinwa Confederacy
-                                        "SBR"};  // Sanbao Republic
+const std::string   ShipFlag::flags[] =    {"UNK",   // unknown
+                                            "UOE",   // Union of Earth
+                                            "PFS",   // Pacifica Free States
+                                            "FSC",   // Federated States of Cobol
+                                            "NSA",   // New Sumerican Ascandency
+                                            "VAN",   // Vanheim Alliance
+                                            "SWC",   // Shinwa Confederacy
+                                            "SBR"};  // Sanbao Republic
 
 // ********** SHIP FLAG ************
 
 // getters
 ShipFlagCode    ShipFlag::getFlagCode() const               { return flag_code; }
-string          ShipFlag::getFlag() const                   { return flags[(int) flag_code]; }
+std::string     ShipFlag::getFlag() const                   { return flags[(int) flag_code]; }
 
 // setters
 void            ShipFlag::setFlagCode(ShipFlagCode fc)      { flag_code = fc; }
-void            ShipFlag::setFlag(string f)                 {
+void            ShipFlag::setFlag(std::string f)                 {
     // check for valid 3 letter flag code
     if (f.length() == 3) {
         for (int i = 0; i < flags->length(); ++i) {
@@ -39,10 +35,10 @@ void            ShipFlag::setFlag(string f)                 {
     flag_code = ShipFlagCode::unknown;
 }
 
-// string constructor
+// std::string constructor
 // searches flags array for matching 3 letter code
 // assigns "UNK" if not found
-ShipFlag::ShipFlag(string f) {
+ShipFlag::ShipFlag(std::string f) {
     // check for valid 3 letter flag code
     if (f.length() == 3) {
         for (int i = 0; i < flags->length(); ++i) {
@@ -89,10 +85,10 @@ ShipFlag::ShipFlag() {
 
 // ********** SHIP REGISTRY ************
 
-// return a formatted string of the VIC
+// return a formatted std::string of the VIC
 // example: "UOE 04SC 1234 5678"
-string ShipRegistry::getVIC() const {
-    // raw c-string to hold VIC as it is built
+std::string ShipRegistry::getVIC() const {
+    // raw c-std::string to hold VIC as it is built
     char raw_vic[19];
 
     // 3 letter flag code
@@ -126,7 +122,7 @@ string ShipRegistry::getVIC() const {
     }
     raw_vic[19] = '\0';
 
-    return string(raw_vic);
+    return std::string(raw_vic);
 }
 
 
