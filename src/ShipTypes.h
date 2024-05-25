@@ -70,7 +70,7 @@ enum class ShipFTL : unsigned char {
     unrestricted
 };
 
-static const char ShipFTLCodes[] = { 'S', 'G', 'R', 'U' };
+static const char ship_ftl_codes[] = { 'S', 'G', 'R', 'U' };
 
 // enum class ShipType : char {
 //     private_owner = 'C',
@@ -97,7 +97,7 @@ enum class ShipType : unsigned char {
     military
 };
 
-static const char ShipTypeCodes[] = { 'C', 'T', 'F', 'I', 'X', 'V', 'Z' };
+static const char ship_type_codes[] = { 'C', 'T', 'F', 'I', 'X', 'V', 'Z' };
 
 
 // weapon sizes

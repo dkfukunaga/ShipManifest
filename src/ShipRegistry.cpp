@@ -100,9 +100,9 @@ std::string ShipRegistry::getVIC() const {
     raw_vic[4] = ((int) ship_size / 10) + 48;
     raw_vic[5] = ((int) ship_size % 10) + 48;
     // ship ftl class code
-    raw_vic[6] = ShipFTLCodes[(int) ship_ftl];
+    raw_vic[6] = ship_ftl_codes[(int) ship_ftl];
     // ship type code
-    raw_vic[7] = ShipTypeCodes[(int) ship_type];
+    raw_vic[7] = ship_type_codes[(int) ship_type];
     // space
     raw_vic[8] = ' ';
 
