@@ -4,6 +4,10 @@
 #ifndef SHIP_TYPES_H
 #define SHIP_TYPES_H
 
+#include <string>
+
+
+typedef unsigned char uchar;
 
 
 enum class ShipSize : unsigned char {
@@ -38,6 +42,29 @@ enum class ShipSize : unsigned char {
     capital_m       = 20,
     capital_h       = 21
 };
+
+static const std::string ship_sizes[] = { "Drone",
+                                          "Tiny, light",
+                                          "Tiny",
+                                          "Tiny, heavy",
+                                          "Small, light",
+                                          "Small",
+                                          "Small, heavy",
+                                          "Standard, light",
+                                          "Standard",
+                                          "Standard, heavy",
+                                          "Light Corvette",
+                                          "Corvette",
+                                          "Heavy Corvette",
+                                          "Light Frigate",
+                                          "Frigate",
+                                          "Heavy Frigate",
+                                          "Light Cruiser",
+                                          "Cruiser",
+                                          "Heavy Cruiser",
+                                          "Sub Capital",
+                                          "Capital",
+                                          "Super Capital", };
 
 enum class ShipFlagCode : unsigned char {
     unknown,

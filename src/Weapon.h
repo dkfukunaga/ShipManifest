@@ -12,13 +12,13 @@
 // Weapon base abstract class
 class Weapon {
 protected:
-    std::string     name;
-    char            tier;
-    WeaponSize      size;
-    int             base_damage;
-    int             fire_rate;
-    int             range;
-    int             power;
+    std::string     m_name;
+    char            m_tier;
+    WeaponSize      m_size;
+    int             m_base_damage;
+    int             m_fire_rate;
+    int             m_range;
+    int             m_power;
 
 public:
     // getters
@@ -31,13 +31,13 @@ public:
     int             getPower() const;
 
     // setters
-    void            setName(std::string nm);
-    void            setTier(char tr);
-    void            setSize(WeaponSize sz);
-    void            setBaseDamage(int bs_dmg);
-    void            setFireRate(int fr);
-    void            setRange(int rng);
-    void            setPower(int pwr);
+    void            setName(std::string name);
+    void            setTier(char tier);
+    void            setSize(WeaponSize size);
+    void            setBaseDamage(int base_dmg);
+    void            setFireRate(int fire_rate);
+    void            setRange(int range);
+    void            setPower(int power);
 
     // operators
     bool            operator==(const Weapon &w) const;
@@ -46,19 +46,37 @@ public:
     // virtual
     virtual int     getDamage(double dist) = 0;
 
-    // constructors
-    Weapon(std::string nm, char tr, WeaponSize ws, int bd, int fr, int r, int p);
-    Weapon();
+    // constructor
+    Weapon(std::string name = "NONE", char tier = 'C', WeaponSize size = WeaponSize::small,
+        int base_dmg = 0, int fire_rate = 0, int range = 0, int power = 0);
 };
 
 
 // *************** WEAPON CLASSES ***************
 
 
+class EmptyWeaponSLot : public Weapon {
+    public:
+    // placeholders for empty weapon slots
+    static EmptyWeaponSLot *no_missile;
+    static EmptyWeaponSLot *no_heavy;
+    static EmptyWeaponSLot *no_medium;
+    static EmptyWeaponSLot *no_light;
+
+    // virutal override
+    int             getDamage(double dist) override;
+
+    // constructor
+    EmptyWeaponSLot(std::string name = "NONE", char tier = 'C',
+        WeaponSize size = WeaponSize::small, int base_dmg = 0, int fire_rate = 0,
+        int range = 0, int power = 0);
+};
+
+
 class Beam : public Weapon {
 private:
     // member variable
-    int             eff_range;
+    int             m_eff_rng;
 
     // helper function
     int             calcDamage(double dist);
@@ -78,16 +96,17 @@ public:
     int             getDamage(double dist) override;
 
     // constructors
-    Beam(std::string nm, char tr, WeaponSize ws, int bd, int fr, int r, int p, int er);
+    Beam(std::string name = "NONE", char tier = 'C', WeaponSize size = WeaponSize::small,
+        int base_dmg = 0, int fire_rate = 0, int range = 0, int power = 0,
+        int eff_range = 0);
     Beam(Beam &other);
-    Beam();
 };
 
 
 class Kinetic : public Weapon {
 private:
-    int             max_ammo;
-    int             curr_ammo;
+    int             m_max_ammo;
+    int             m_curr_ammo;
 
 public:
     // getters
@@ -95,8 +114,8 @@ public:
     int             getCurrAmmo() const;
 
     // setters
-    void            setMaxAmmo(int ma);
-    void            setCurrAmmo(int ca);
+    void            setMaxAmmo(int max_ammo);
+    void            setCurrAmmo(int curr_ammo);
 
     // operators
     bool            operator==(const Kinetic &k) const;
@@ -106,16 +125,17 @@ public:
     int             getDamage(double dist) override;
 
     // constructors
-    Kinetic(std::string nm, char tr, WeaponSize ws, int bd, int fr, int r, int p, int ma, int ca);
+    Kinetic(std::string name = "NONE", char tier = 'C', WeaponSize size = WeaponSize::small,
+        int base_dmg = 0, int fire_rate = 0, int range = 0, int power = 0,
+        int max_ammo = 0, int curr_ammo = 0);
     Kinetic(Kinetic &other);
-    Kinetic();
 };
 
 class Missile : public Weapon {
 private:
-    int             speed;
-    float           tracking;
-    int             hull;
+    int             m_speed;
+    float           m_tracking;
+    int             m_hull;
 
 public:
     // getters
@@ -124,9 +144,9 @@ public:
     int             getHull() const;
 
     // setters
-    void            setSpeed(int spd);
-    void            setTracking(float trck);
-    void            setHull(int hl);
+    void            setSpeed(int speed);
+    void            setTracking(float tracking);
+    void            setHull(int hull);
 
     // operators
     bool            operator==(const Missile &m) const;
@@ -136,9 +156,10 @@ public:
     int             getDamage(double dist) override;
 
     // constructors
-    Missile(std::string nm, char tr, WeaponSize ws, int bd, int fr, int r, int p, int spd, float t, int h);
+    Missile(std::string name = "NONE", char tier = 'C', WeaponSize size = WeaponSize::small,
+        int base_dmg = 0, int fire_rate = 0, int range = 0, int power = 0,
+        int speed = 0, float tracking = 0.0, int hull = 0);
     Missile(Missile &other);
-    Missile();
 };
 
 

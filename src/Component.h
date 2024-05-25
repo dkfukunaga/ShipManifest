@@ -13,10 +13,10 @@
 // Component base abstract class
 class Component {
 protected:
-    std::string         name;
-    char                tier;
-    int                 mass;
-    int                 power;
+    std::string         m_name;
+    char                m_tier;
+    int                 m_mass;
+    int                 m_power;
 
 public:
     // getters
@@ -26,10 +26,10 @@ public:
     int                 getPower() const;
 
     // setters
-    void                setName(std::string nm);
-    void                setTier(char tr);
-    void                setMass(int m);
-    void                setPower(int pow);
+    void                setName(std::string name);
+    void                setTier(char tier);
+    void                setMass(int mass);
+    void                setPower(int power);
 
     // operators
     bool                operator==(const Component &c) const;
@@ -39,58 +39,57 @@ public:
     virtual void        use() = 0;
 
     // constructors
-    Component(std::string nm, char tr, int m, int p);
-    Component();
+    Component(std::string name = "NONE", char tier = 'C', int mass = 0, int power = 0);
 };
 
 // *************** COMPONENT CLASSES ***************
 
-class Reactor : Component {
+class Reactor : public Component {
 private:
-    int             power_gen;
-    int             fuel_rate;
-    float           reliability;
+    int             m_power_gen;
+    int             m_fuel_rate;
+    int             m_reliability;
 
 public:
     // getters
     int             getPowerGen() const;
     int             getFuelRate() const;
-    float           getReliability() const;
+    int             getReliability() const;
 
     // setters
-    void            setPowerGen(int pg);
-    void            setFuelRate(int fr);
-    void            setReliability(float rel);
+    void            setPowerGen(int power_gen);
+    void            setFuelRate(int fuel_rate);
+    void            setReliability(int reliability);
 
     // operators
-    bool            operator==(const Reactor &r) const;
-    bool            operator!=(const Reactor &r) const;
+    bool            operator==(const Reactor &reliability) const;
+    bool            operator!=(const Reactor &reliability) const;
 
     // virtual
     void            use() override;
 
     // constructors
-    Reactor(std::string nm, char tr, int m, int p, int pg, int fr, float r);
+    Reactor(std::string name = "NONE", char tier = 'C', int mass = 0, int power = 0,
+        int power_gen = 0, int fuel_rate = 0, int reliability = 0);
     Reactor(Reactor &other);
-    Reactor();
 };
 
-class SubDrive : Component {
+class SubDrive : public Component {
 private:
-    float           accel;
-    int             maneuver;
-    int             speed;
+    int             m_accel;
+    int             m_maneuver;
+    int             m_speed;
 
 public:
     // getters
-    float           getAccel() const;
+    int             getAccel() const;
     int             getManeuver() const;
     int             getSpeed() const;
 
     // setters
-    void            setAccel(float acc);
-    void            setManeuver(int manu);
-    void            setSpeed(int spd);
+    void            setAccel(int accel);
+    void            setManeuver(int maneuver);
+    void            setSpeed(int speed);
 
     // operators
     bool            operator==(const SubDrive &s) const;
@@ -100,27 +99,27 @@ public:
     void            use() override;
 
     // constructors
-    SubDrive(std::string nm, char tr, int m, int p, float acc, int mn, int spd);
+    SubDrive(std::string name = "NONE", char tier = 'C', int mass = 0, int power = 0,
+        int accel = 0, int maneuver = 0, int speed = 0);
     SubDrive(SubDrive &other);
-    SubDrive();
 };
 
-class FTLDrive : Component {
+class FTLDrive : public Component {
 private:
-    int             charge_rate;
-    ShipSize        max_size;
-    int             fuel_use;
+    int             m_charge_rate;
+    ShipSize        m_max_size;
+    int             m_fuel_use;
 
 public:
     // getters
     int             getChargeRate() const;
-    ShipSize        getMaxSize() const;
+    std::string     getMaxSize() const;
     int             getFuelUse() const;
 
     // setters
-    void            setChargeRate(int cr);
-    void            setMaxSize(ShipSize ms);
-    void            setFuelUse(int fu);
+    void            setChargeRate(int charge_rate);
+    void            setMaxSize(ShipSize max_size);
+    void            setFuelUse(int fuel_use);
 
     // operators
     bool            operator==(const FTLDrive &f) const;
@@ -130,9 +129,9 @@ public:
     void            use() override;
 
     // constructors
-    FTLDrive(std::string nm, char tr, int m, int p, int cr, ShipSize sz, int fu);
+    FTLDrive(std::string name = "NONE", char tier = 'C', int mass = 0, int power = 0,
+        int charge_rate = 0, ShipSize size = ShipSize::drone, int fuel_use = 0);
     FTLDrive(FTLDrive &other);
-    FTLDrive();
 };
 
 #endif
