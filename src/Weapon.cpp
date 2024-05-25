@@ -3,6 +3,7 @@
 
 #include "Weapon.h"
 #include <cmath>
+#include <typeinfo>
 
 // ******************** WEAPON ********************
 
@@ -24,6 +25,20 @@ void        Weapon::setFireRate(int fr)         { fire_rate = fr; }
 void        Weapon::setRange(int rng)           { range = rng; }
 void        Weapon::setPower(int pwr)           { power = pwr; }
 
+// Weapon operator overload
+bool        Weapon::operator==(const Weapon &w) const {
+    return this->name == w.name &&
+           this->tier == w.tier &&
+           this->size == w.size &&
+           this->base_damage == w.base_damage &&
+           this->fire_rate == w.fire_rate &&
+           this->range == w.range &&
+           this->power == w.power;
+}
+bool        Weapon::operator!=(const Weapon &w) const {
+    return !(*this == w);
+}
+
 
 // ******************** BEAM ********************
 
@@ -33,10 +48,26 @@ int         Beam::getDamage(double dist) { return calcDamage(dist); }
 
 // Beam setters
 void        Beam::setEffRange(int eff_rng)      { eff_range = eff_rng; }
+
+// Beam operator overload
+bool        Beam::operator==(const Beam &b) const {
+    return typeid(*this) == typeid(b) &&
+           Weapon::operator==(b) &&
+           this->eff_range == b.eff_range;
+}
+bool        Beam::operator!=(const Beam &b) const {
+    return !(*this == b);
+}
+
 // Beam private function
+// Beam will do max damage at 0 range, reducing to 90% damage
+// at effective range, further down to 10% damage at max range
 int         Beam::calcDamage(double dist)       {
+    // 0 damage past max range
+    if (dist > range)
+        return 0;
     // exponent for damage calculation
-    double p = log2(10)/log2(range/eff_range);
+    double p = log2(9)/log2(range/eff_range);
     // calculation for damage that decreases after effective range and
     // goes to 0 at max range
     int dmg = ceil(base_damage -((0.1*base_damage)/pow(eff_range, p)) * pow(dist, p));
@@ -57,6 +88,17 @@ int         Kinetic::getDamage(double dist)     {
 void        Kinetic::setMaxAmmo(int ma)         { max_ammo = ma; }
 void        Kinetic::setCurrAmmo(int ca)        { curr_ammo = ca; }
 
+// Kinetic opeator overload
+bool        Kinetic::operator==(const Kinetic &k) const {
+    return typeid(*this) == typeid(k) &&
+           Weapon::operator==(k) &&
+           this->max_ammo == k.max_ammo &&
+           this->curr_ammo == k.curr_ammo;
+}
+bool        Kinetic::operator!=(const Kinetic &k) const {
+    return !(*this == k);
+}
+
 
 // ******************** MISSILE ********************
 
@@ -71,5 +113,16 @@ void        Missile::setSpeed(int spd)          { speed = spd; }
 void        Missile::setTracking(float trck)    { tracking = trck; }
 void        Missile::setHull(int hl)            { hull = hl; }
 
+// Missile operator overload
+bool        Missile::operator==(const Missile &m) const {
+    return typeid(*this) == typeid(m) &&
+           Weapon::operator==(m) &&
+           this->speed == m.speed &&
+           this->tracking == m.tracking &&
+           this->hull == m.hull;
+}
+bool        Missile::operator!=(const Missile &m) const {
+    return !(*this == m);
+}
 
 

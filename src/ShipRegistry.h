@@ -17,16 +17,29 @@ class ShipFlag {
 private:
     // private static member
     static const string         flags[];
-    // field
-    int             index;
+    // member variables
+    ShipFlagCode    flag_code;
+
 public:
-    // member variable
-    string          flag;
     // getter
     ShipFlagCode    getFlagCode() const;
+    string          getFlag() const;
+
+    // setters
+    void            setFlagCode(ShipFlagCode fc);
+    void            setFlag(string f);
+
+    // // operators
+    // bool            operator==(const ShipFlag &s) const;
+    // bool            operator!=(const ShipFlag &s) const;
+    // bool            operator<(const ShipFlag &s) const;
+    // bool            operator>(const ShipFlag &s) const;
+    // bool            operator<=(const ShipFlag &s) const;
+    // bool            operator>=(const ShipFlag &s) const;
+
     // constructors
-    ShipFlag(string flag);
-    ShipFlag(ShipFlagCode flag_code);
+    ShipFlag(string f);
+    ShipFlag(ShipFlagCode fc);
     ShipFlag();
 };
 
@@ -39,6 +52,7 @@ private:
     ShipFTL         ship_ftl;           // 1-letter code
     ShipType        ship_type;          // 1-letter code
     int             ship_uid;           // 8 digit unique id
+
 public:
     // generate string of Vessel Identification Code
     string          getVIC() const;
@@ -51,15 +65,23 @@ public:
     int             getShipUID() const;
 
     // setters
-    void            setShipFlag(ShipFlag flag_code);
-    void            setShipFlag(ShipFlagCode flag);
+    void            setShipFlag(ShipFlag fc);
+    void            setShipFlag(ShipFlagCode f);
     void            setShipFTL(ShipFTL ftl);
     void            setShipSize(ShipSize size);
     void            setShipType(ShipType type);
     void            setShipUID(int uid);
 
+    // operators
+    bool            operator==(const ShipRegistry &s) const;
+    bool            operator!=(const ShipRegistry &s) const;
+    bool            operator<(const ShipRegistry &s) const;
+    bool            operator>(const ShipRegistry &s) const;
+    bool            operator<=(const ShipRegistry &s) const;
+    bool            operator>=(const ShipRegistry &s) const;
+
     // constructors
-    ShipRegistry(ShipFlagCode flag_code, ShipFTL ftl, ShipSize size, ShipType type, int uid);
+    ShipRegistry(ShipFlagCode fc, ShipFTL ftl, ShipSize size, ShipType type, int uid);
 };
 
 

@@ -6,36 +6,53 @@
 
 #include "ShipTypes.h"
 #include "ShipRegistry.h"
-#include "ShipClass.h"
 #include "Component.h"
 #include "Weapon.h"
 #include <string>
 
 using namespace std;
 
+struct ShipComponents {
+    Reactor         *reactor;
+    SubDrive        *sub_drive;
+    FTLDrive        *ftl_drive;
+};
+
+struct ShipDefenses {
+    int             hull;
+    int             armor;
+    int             barrier;
+};
+
+struct ShipWeapons {
+    char            num_heavy;
+    char            num_medium;
+    char            num_light;
+    Weapon          **heavy_weapons;
+    Weapon          **medium_weapons;
+    Weapon          **light_weapons;
+};
+
+struct ShipClass {
+    string          name;
+    int             officers;
+    int             crew;
+    ShipSize        size;
+    ShipDefenses    defenses;
+    ShipComponents  components;         // stock components
+    ShipWeapons     weapons;            // stock weapons loadout
+};
 
 
 struct Ship {
-private:
-    string          name;
     ShipRegistry    registry;
+    string          name;
     string          commander;
     string          engineer;
     ShipClass*      ship_class;
-    ShipComponents  components;
     ShipDefenses    defenses;
+    ShipComponents  components;
     ShipWeapons     weapons;
-public:
-    string          getName() const;
-    string          getRegistry() const;
-    string          getCommander() const;
-    string          getEngineer() const;
-    ShipClass*      getShipClass() const;
-    void            setName(string nm);
-    void            setRegistry(ShipRegistry reg);
-    void            setCommander(string cmdr);
-    void            setEngineer(string engi);
-    void            setShipClass(ShipClass *cls);
 };
 
 

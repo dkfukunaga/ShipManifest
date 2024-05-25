@@ -42,38 +42,72 @@ enum class ShipSize : unsigned char {
 };
 
 enum class ShipFlagCode : unsigned char {
-    union_of_earth = 1,
-    pacifica_free_states = 2,
-    federated_states_of_cobol = 3,
-    new_sumerian_ascendancy = 4,
-    vanaheim_alliance = 5,
-    shinwa_confederacy = 6,
-    sanbao_republic = 7
+    unknown,
+    union_of_earth,
+    pacifica_free_states,
+    federated_states_of_cobol,
+    new_sumerian_ascendancy,
+    vanaheim_alliance,
+    shinwa_confederacy,
+    sanbao_republic
 };
 
-enum class ShipFTL : char {
-    system = 'S',
-    gate = 'G',
-    restricted = 'R',
-    unrestricted = 'U'
+// enum class ShipFTL : char {
+//     system = 'S',
+//     gate = 'G',
+//     restricted = 'R',
+//     unrestricted = 'U'
+// };
+
+// bool    operator<(const ShipFTL &lhs, const ShipFTL &rhs);
+// bool    operator>(const ShipFTL &lhs, const ShipFTL &rhs);
+// bool    operator<=(const ShipFTL &lhs, const ShipFTL &rhs);
+// bool    operator>=(const ShipFTL &lhs, const ShipFTL &rhs);
+
+
+enum class ShipFTL : unsigned char {
+    system,
+    gate,
+    restricted,
+    unrestricted
 };
 
-enum class ShipType : char {
-    private_owner = 'C',
-    passenger = 'T',
-    merchant = 'F',
-    commercial = 'I',
-    exloratory = 'X',
-    goverment = 'V',
-    military = 'Z'
+static const char ShipFTLCodes[] = { 'S', 'G', 'R', 'U' };
+
+// enum class ShipType : char {
+//     private_owner = 'C',
+//     passenger = 'T',
+//     merchant = 'F',
+//     commercial = 'I',
+//     exloratory = 'X',
+//     goverment = 'V',
+//     military = 'Z'
+// };
+
+// bool    operator<(const ShipType &lhs, const ShipType &rhs);
+// bool    operator>(const ShipType &lhs, const ShipType &rhs);
+// bool    operator<=(const ShipType &lhs, const ShipType &rhs);
+// bool    operator>=(const ShipType &lhs, const ShipType &rhs);
+
+enum class ShipType : unsigned char {
+    private_owner,
+    passenger,
+    merchant,
+    commercial,
+    exloratory,
+    goverment,
+    military
 };
+
+static const char ShipTypeCodes[] = { 'C', 'T', 'F', 'I', 'X', 'V', 'Z' };
 
 
 // weapon sizes
 enum class WeaponSize {
     small   = 1,
     medium  = 2,
-    large   = 3
+    large   = 3,
+    missile
 };
 
 
