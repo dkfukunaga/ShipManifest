@@ -82,6 +82,7 @@ public:
 
     // constructors
     ShipRegistry(ShipFlagCode fc, ShipFTL ftl, ShipSize size, ShipType type, int uid);
+    ShipRegistry();
 };
 
 

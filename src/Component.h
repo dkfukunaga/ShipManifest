@@ -38,6 +38,10 @@ public:
 
     // virtual
     virtual void        use() = 0;
+
+    // constructors
+    Component(string nm, char tr, int m, int p);
+    Component();
 };
 
 // *************** COMPONENT CLASSES ***************
@@ -65,6 +69,11 @@ public:
 
     // virtual
     void            use() override;
+
+    // constructors
+    Reactor(string nm, char tr, int m, int p, int pg, int fr, float r);
+    Reactor(Reactor &other);
+    Reactor();
 };
 
 class SubDrive : Component {
@@ -90,6 +99,11 @@ public:
 
     // virtual override
     void            use() override;
+
+    // constructors
+    SubDrive(string nm, char tr, int m, int p, float acc, int mn, int spd);
+    SubDrive(SubDrive &other);
+    SubDrive();
 };
 
 class FTLDrive : Component {
@@ -97,7 +111,7 @@ private:
     int             charge_rate;
     ShipSize        max_size;
     int             fuel_use;
-    
+
 public:
     // getters
     int             getChargeRate() const;
@@ -115,6 +129,11 @@ public:
 
     // virtual override
     void            use() override;
+
+    // constructors
+    FTLDrive(string nm, char tr, int m, int p, int cr, ShipSize sz, int fu);
+    FTLDrive(FTLDrive &other);
+    FTLDrive();
 };
 
 #endif

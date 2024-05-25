@@ -32,6 +32,16 @@ bool        Component::operator!=(const Component &c) const {
     return !(*this == c);
 }
 
+// constructors
+Component::Component(string nm, char tr, int m, int p) :
+    name(nm),
+    tier(tr),
+    mass(m),
+    power(p) { }
+
+Component::Component() :
+    Component("", 'Z', 0, 0) { }
+
 
 // *************** REACTOR ***************
 
@@ -60,6 +70,25 @@ bool        Reactor::operator!=(const Reactor &r) const {
 void        Reactor::use()                      {
 
 }
+
+// constructors
+Reactor::Reactor(string nm, char tr, int m, int p, int pg, int fr, float r) :
+    Component(nm, tr, m, p),
+    power_gen(pg),
+    fuel_rate(fr),
+    reliability(r) { }
+
+Reactor::Reactor(Reactor &other) :
+    Component(other.name, other.tier, other.mass, other.power),
+    power_gen(other.power_gen),
+    fuel_rate(other.fuel_rate),
+    reliability(other.reliability) { }
+
+Reactor::Reactor() :
+    Component(),
+    power_gen(0),
+    fuel_rate(0),
+    reliability(0.0) { }
 
 
 // *************** SUBDRIVE ***************
@@ -90,6 +119,26 @@ void        SubDrive::use()                     {
 
 }
 
+// constructors
+SubDrive::SubDrive(string nm, char tr, int m, int p, float acc, int mn, int spd) :
+    Component(nm, tr, m, p),
+    accel(acc),
+    maneuver(mn),
+    speed(spd) { }
+
+SubDrive::SubDrive(SubDrive &other) :
+    Component(other.name, other.tier, other.mass, other.power),
+    accel(other.accel),
+    maneuver(other.maneuver),
+    speed(other.speed) { }
+
+SubDrive::SubDrive() :
+    Component(),
+    accel(0.0),
+    maneuver(0),
+    speed(0) { }
+
+
 
 // *************** FTLDRIVE ***************
 
@@ -118,3 +167,25 @@ bool        FTLDrive::operator!=(const FTLDrive &f) const {
 void        FTLDrive::use()                     {
 
 }
+
+// constructors
+FTLDrive::FTLDrive(string nm, char tr, int m, int p, int cr, ShipSize sz, int fu) :
+    Component(nm, tr, m, p),
+    charge_rate(cr),
+    max_size(sz),
+    fuel_use(fu) { }
+
+FTLDrive::FTLDrive(FTLDrive &other) :
+    Component(other.name, other.tier, other.mass, other.power),
+    charge_rate(other.charge_rate),
+    max_size(other.max_size),
+    fuel_use(other.fuel_use) { }
+
+FTLDrive::FTLDrive() :
+    Component(),
+    charge_rate(0),
+    max_size(ShipSize::drone),
+    fuel_use(0) { }
+
+
+

@@ -39,6 +39,25 @@ bool        Weapon::operator!=(const Weapon &w) const {
     return !(*this == w);
 }
 
+// constructors
+Weapon::Weapon(string nm, char tr, WeaponSize ws, int bd, int fr, int r, int p) :
+    name(nm),
+    tier(tr),
+    size(ws),
+    base_damage(bd),
+    fire_rate(fr),
+    range(r),
+    power(p) { }
+
+Weapon::Weapon() :
+    name(""),
+    tier('Z'),
+    size(WeaponSize::small),
+    base_damage(0),
+    fire_rate(0),
+    range(0),
+    power(0) { }
+
 
 // ******************** BEAM ********************
 
@@ -74,6 +93,20 @@ int         Beam::calcDamage(double dist)       {
     return dmg;
 }
 
+// constructors
+Beam::Beam(string nm, char tr, WeaponSize ws, int bd, int fr, int r, int p, int er) :
+    Weapon(nm, tr, ws, bd, fr, r, p),
+    eff_range(er) { }
+
+Beam::Beam(Beam &other) :
+    Weapon(other.name, other.tier, other.size, other.base_damage, other.fire_rate,
+        other.range, other.power),
+    eff_range(other.eff_range) { }
+
+Beam::Beam() :
+    Weapon(),
+    eff_range(0) { }
+
 
 // ******************** KINETIC ********************
 
@@ -98,6 +131,21 @@ bool        Kinetic::operator==(const Kinetic &k) const {
 bool        Kinetic::operator!=(const Kinetic &k) const {
     return !(*this == k);
 }
+
+// constructors
+Kinetic::Kinetic(string nm, char tr, WeaponSize ws, int bd, int fr, int r, int p, int ma, int ca) :
+    Weapon(nm, tr, ws, bd, fr, r, p),
+    max_ammo(ma),
+    curr_ammo(ca) { }
+Kinetic::Kinetic(Kinetic &other) :
+    Weapon(other.name, other.tier, other.size, other.base_damage, other.fire_rate,
+        other.range, other.power),
+    max_ammo(other.max_ammo),
+    curr_ammo(other.curr_ammo) { }
+Kinetic::Kinetic() :
+    Weapon(),
+    max_ammo(0),
+    curr_ammo(0) { }
 
 
 // ******************** MISSILE ********************
@@ -125,4 +173,24 @@ bool        Missile::operator!=(const Missile &m) const {
     return !(*this == m);
 }
 
+// constructors
+Missile::Missile(string nm, char tr, WeaponSize ws, int bd, int fr, int r, int p,
+    int spd, float t, int h) :
+    Weapon(nm, tr, ws, bd, fr, r, p),
+    speed(spd),
+    tracking(t),
+    hull(h) { }
+
+Missile::Missile(Missile &other) :
+    Weapon(other.name, other.tier, other.size, other.base_damage, other.fire_rate,
+        other.range, other.power),
+    speed(0),
+    tracking(0.0),
+    hull(0) { }
+
+Missile::Missile() :
+    Weapon(),
+    speed(0),
+    tracking(0.0),
+    hull(0) { }
 

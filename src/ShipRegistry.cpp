@@ -195,3 +195,9 @@ ShipRegistry::ShipRegistry(ShipFlagCode flag_code, ShipFTL ftl, ShipSize size, S
     ship_type(type),
     ship_uid(uid) { }
 
+ShipRegistry::ShipRegistry() :
+    ship_flag_code(ShipFlagCode::union_of_earth),
+    ship_ftl(ShipFTL::system),
+    ship_size(ShipSize::drone),
+    ship_type(ShipType::private_owner),
+    ship_uid(0) { }

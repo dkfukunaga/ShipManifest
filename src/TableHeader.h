@@ -10,7 +10,7 @@
 // Tables are in all caps; sub-tables are in all lower case.
 namespace TableType {
     const char ship[3]              = { 'S', 'H', 'P' };    // Ship table: "SHP"
-    const char ship_string [3]      = { 'S', 'S', 'T' };    // ShipString table: "SST"
+    const char ship_string[3]       = { 'S', 'S', 'T' };    // ShipString table: "SST"
     const char game_character[3]    = { 'G', 'C', 'H' };    // GameCharacter table: "GCH"
     const char ship_class[3]        = { 'S', 'C', 'L' };    // ShipClass table: "SCL"
     const char ship_weapons[3]      = { 'S', 'W', 'P' };    // ShipWeapons table: "SWP"

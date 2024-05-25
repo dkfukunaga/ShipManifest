@@ -13,9 +13,9 @@
 using namespace std;
 
 struct ShipComponents {
-    Reactor         *reactor;
-    SubDrive        *sub_drive;
-    FTLDrive        *ftl_drive;
+    Reactor         *reactor = nullptr;
+    SubDrive        *sub_drive = nullptr;
+    FTLDrive        *ftl_drive = nullptr;
 };
 
 struct ShipDefenses {
@@ -28,9 +28,9 @@ struct ShipWeapons {
     char            num_heavy;
     char            num_medium;
     char            num_light;
-    Weapon          **heavy_weapons;
-    Weapon          **medium_weapons;
-    Weapon          **light_weapons;
+    Weapon          **heavy_weapons = nullptr;
+    Weapon          **medium_weapons = nullptr;
+    Weapon          **light_weapons = nullptr;
 };
 
 struct ShipClass {
@@ -39,7 +39,7 @@ struct ShipClass {
     int             crew;
     ShipSize        size;
     ShipDefenses    defenses;
-    ShipComponents  components;         // stock components
+    ShipComponents  components;         // stock components loadout
     ShipWeapons     weapons;            // stock weapons loadout
 };
 
@@ -49,7 +49,7 @@ struct Ship {
     string          name;
     string          commander;
     string          engineer;
-    ShipClass*      ship_class;
+    ShipClass*      ship_class = nullptr;
     ShipDefenses    defenses;
     ShipComponents  components;
     ShipWeapons     weapons;

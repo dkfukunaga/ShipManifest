@@ -47,6 +47,10 @@ public:
 
     // virtual
     virtual int     getDamage(double dist) = 0;
+
+    // constructors
+    Weapon(string nm, char tr, WeaponSize ws, int bd, int fr, int r, int p);
+    Weapon();
 };
 
 
@@ -55,7 +59,10 @@ public:
 
 class Beam : public Weapon {
 private:
+    // member variable
     int             eff_range;
+
+    // helper function
     int             calcDamage(double dist);
 
 public:
@@ -71,6 +78,11 @@ public:
 
     // virutal override
     int             getDamage(double dist) override;
+
+    // constructors
+    Beam(string nm, char tr, WeaponSize ws, int bd, int fr, int r, int p, int er);
+    Beam(Beam &other);
+    Beam();
 };
 
 
@@ -94,6 +106,11 @@ public:
 
     // virtual override
     int             getDamage(double dist) override;
+
+    // constructors
+    Kinetic(string nm, char tr, WeaponSize ws, int bd, int fr, int r, int p, int ma, int ca);
+    Kinetic(Kinetic &other);
+    Kinetic();
 };
 
 class Missile : public Weapon {
@@ -101,7 +118,7 @@ private:
     int             speed;
     float           tracking;
     int             hull;
-    
+
 public:
     // getters
     int             getSpeed() const;
@@ -116,9 +133,14 @@ public:
     // operators
     bool            operator==(const Missile &m) const;
     bool            operator!=(const Missile &m) const;
-    
+
     // virtual override
     int             getDamage(double dist) override;
+
+    // constructors
+    Missile(string nm, char tr, WeaponSize ws, int bd, int fr, int r, int p, int spd, float t, int h);
+    Missile(Missile &other);
+    Missile();
 };
 
 
