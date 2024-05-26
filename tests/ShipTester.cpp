@@ -10,14 +10,14 @@ int main() {
 
     Ship *ship;
 
-    Beam basic_beam("Basic Beam", 'C', WeaponSize::small, 15, 1, 20, 5, 15);
-    Kinetic medium_cannon("Medium Cannon", 'C', WeaponSize::medium, 25, 1, 50, 10, 50, 50);
-    Beam heavy_beam("Heavy Beam", 'B', WeaponSize::large, 35, 1, 50, 25, 35);
-    Missile torp("Torp", 'C', WeaponSize::medium, 85, 0, 100, 15, 20, .75, 50);
+    Beam basic_beam("Basic Beam", 3, WeaponSize::small, 15, 1, 20, 5, 15);
+    Kinetic medium_cannon("Medium Cannon", 2, WeaponSize::medium, 25, 1, 50, 10, 50, 50);
+    Beam heavy_beam("Heavy Beam", 2, WeaponSize::large, 35, 1, 50, 25, 35);
+    Missile torp("Torp", 3, WeaponSize::medium, 85, 0, 100, 15, 20, .75, 50);
 
-    Reactor basic_reac("Basic Reactor", 'C', 100, 0, 100, 5, .85);
-    SubDrive basic_drive("Basic Drive", 'C', 40, 10, .75, 10, 20);
-    FTLDrive basic_ftl("Basic FTL", 'C', 25, 20, 10, ShipSize::standard_h, 5);
+    Reactor basic_reac("Basic Reactor", 3, 100, 0, 100, 5, .85);
+    SubDrive basic_drive("Basic Drive", 3, 40, 10, .75, 10, 20);
+    FTLDrive basic_ftl("Basic FTL", 3, 25, 20, 10, ShipSize::standard_h, 5);
 
     Weapon *torps[2] = {&torp, EmptyWeaponSLot::no_missile};
     Weapon *heavies[1] = {&heavy_beam};
@@ -37,16 +37,18 @@ int main() {
     ShipClass *test_class = new ShipClass("Test Class", 5, 10,
         ShipSize::standard_m, test_def, test_comps, test_weaps);
 
-    ShipRegistry reg;
+    ShipRegistry *reg = new ShipRegistry();
+    // reg.setShipSize(test_class->getSizeCode());
 
     std::string test_ship_name = "Test Ship";
     std::string cmdr = "Captain Testerson";
     std::string engi = "Commander Exampleson";
 
     ship = new Ship(reg, test_ship_name, cmdr, engi, test_class);
+    ship->registry->setShipUID(12345678);
 
     std::cout << std::endl;
-    std::cout << "\"" << ship->name << "\" Registry: " << reg.getVIC() << std::endl;
+    std::cout << "\"" << ship->name << "\" Registry: " << reg->getVIC() << std::endl;
     std::cout << "=========================================" << std::endl;
     std::cout << "Commander: " << ship->commander << std::endl;
     std::cout << "Engineer:  " << ship->engineer << std::endl;
@@ -68,7 +70,7 @@ int main() {
     std::cout << "Components:" << std::endl;
     std::cout << "    Reactor:        " << std::endl;
     std::cout << "        Name: " << ship->components.reactor->getName() << ", Tier: "
-              << ship->components.reactor->getTier() <<  ", Mass: "
+              << (int) ship->components.reactor->getTier() <<  ", Mass: "
               << ship->components.reactor->getMass() << ", Power Use: "
               << ship->components.reactor->getPower() << std::endl;
     std::cout << "        Power Generation: " << ship->components.reactor->getPowerGen()
@@ -76,7 +78,7 @@ int main() {
               << ship->components.reactor->getReliability() << std::endl;
     std::cout << "    Sublight Drive: " << std::endl;
     std::cout << "        Name: " << ship->components.sub_drive->getName() << ", Tier: "
-              << ship->components.sub_drive->getTier() << ", Mass: "
+              << (int) ship->components.sub_drive->getTier() << ", Mass: "
               << ship->components.sub_drive->getMass() << ", Power Use: "
               << ship->components.sub_drive->getPower() << std::endl;
     std::cout << "        Acceleration: " << ship->components.sub_drive->getAccel()
@@ -84,7 +86,7 @@ int main() {
               << ", Speed: " << ship->components.sub_drive->getSpeed() << std::endl;
     std::cout << "    FTL Drive:      " << std::endl;
     std::cout << "        Name: " << ship->components.ftl_drive->getName() << ", Tier: "
-              << ship->components.ftl_drive->getTier() << ", Mass: "
+              << (int) ship->components.ftl_drive->getTier() << ", Mass: "
               << ship->components.ftl_drive->getMass() << ", Power Use: "
               << ship->components.ftl_drive->getPower() << std::endl;
     std::cout << "        Charge Rate: " << ship->components.ftl_drive->getChargeRate()
@@ -98,7 +100,7 @@ int main() {
         
         if (temp != EmptyWeaponSLot::no_missile) {
             std::cout << "       " << i + 1 << ". Name: " << temp->getName() << ", Tier: "
-                      << temp->getTier() << ", Base Damage: " << temp->getBaseDamage()
+                      << (int) temp->getTier() << ", Base Damage: " << temp->getBaseDamage()
                       << ", Fire Rate: " << temp->getFireRate() << std::endl;
             std::cout << "          Range: " << temp->getRange() << ", Power Use: "
                       << temp->getPower() << std::endl;
@@ -115,7 +117,7 @@ int main() {
         
         if (temp != EmptyWeaponSLot::no_heavy) {
             std::cout << "       " << i + 1 << ". Name: " << temp->getName() << ", Tier: "
-                      << temp->getTier() << ", Base Damage: " << temp->getBaseDamage()
+                      << (int) temp->getTier() << ", Base Damage: " << temp->getBaseDamage()
                       << ", Fire Rate: " << temp->getFireRate() << std::endl;
             std::cout << "          Range: " << temp->getRange() << ", Power Use: "
                       << temp->getPower() << std::endl;
@@ -137,7 +139,7 @@ int main() {
         
         if (temp != EmptyWeaponSLot::no_medium) {
             std::cout << "       " << i + 1 << ". Name: "<< temp->getName() << ", Tier: "
-                      << temp->getTier() << ", Base Damage: " << temp->getBaseDamage()
+                      << (int) temp->getTier() << ", Base Damage: " << temp->getBaseDamage()
                       << ", Fire Rate: " << temp->getFireRate() << std::endl;
             std::cout << "          Range: " << temp->getRange() << ", Power Use: "
                       << temp->getPower() << std::endl;
@@ -159,7 +161,7 @@ int main() {
         
         if (temp != EmptyWeaponSLot::no_light) {
             std::cout << "       " << i + 1 << ". Name: " << temp->getName() << ", Tier: "
-                      << temp->getTier() << ", Base Damage: " << temp->getBaseDamage()
+                      << (int) temp->getTier() << ", Base Damage: " << temp->getBaseDamage()
                       <<", Fire Rate: " << temp->getFireRate() << std::endl;
             std::cout << "          Range: " << temp->getRange() << ", Power Use: "
                       << temp->getPower() << std::endl;
@@ -179,6 +181,7 @@ int main() {
     std::cout << std::endl;
 
     delete ship;
+    delete reg;
     delete test_class;
 
 

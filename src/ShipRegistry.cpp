@@ -193,9 +193,9 @@ ShipRegistry::ShipRegistry(ShipFlagCode flag_code, ShipFTL ftl, ShipSize size,
     m_ship_type(type),
     m_ship_uid(uid) { }
 
-ShipRegistry::ShipRegistry() :
-    m_ship_flag_code(ShipFlagCode::union_of_earth),
-    m_ship_ftl(ShipFTL::system),
-    m_ship_size(ShipSize::drone),
-    m_ship_type(ShipType::private_owner),
-    m_ship_uid(0) { }
+// ShipRegistry::ShipRegistry() :
+//     m_ship_flag_code(ShipFlagCode::union_of_earth),
+//     m_ship_ftl(ShipFTL::system),
+//     m_ship_size(ShipSize::drone),
+//     m_ship_type(ShipType::private_owner),
+//     m_ship_uid(0) { }

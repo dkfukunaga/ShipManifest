@@ -13,7 +13,7 @@
 
 // Weapon getters
 std::string Weapon::getName() const             { return m_name; }
-char        Weapon::getTier() const             { return m_tier; }
+uchar       Weapon::getTier() const             { return m_tier; }
 WeaponSize  Weapon::getSize() const             { return m_size; }
 int         Weapon::getBaseDamage() const       { return m_base_damage; }
 int         Weapon::getFireRate() const         { return m_fire_rate; }
@@ -22,7 +22,7 @@ int         Weapon::getPower() const            { return m_power; }
 
 // Weapon setters
 void        Weapon::setName(std::string name)   { m_name = name; }
-void        Weapon::setTier(char tier)          { m_tier = tier; }
+void        Weapon::setTier(uchar tier)         { m_tier = tier; }
 void        Weapon::setSize(WeaponSize size)    { m_size = size; }
 void        Weapon::setBaseDamage(int bs_dmg)   { m_base_damage = bs_dmg; }
 void        Weapon::setFireRate(int fire_rate)  { m_fire_rate = fire_rate; }
@@ -44,7 +44,7 @@ bool        Weapon::operator!=(const Weapon &w) const {
 }
 
 // constructor
-Weapon::Weapon(std::string name, char tier, WeaponSize size, int base_damage,
+Weapon::Weapon(std::string name, uchar tier, WeaponSize size, int base_damage,
         int fire_rate, int range, int power) :
     m_name(name),
     m_tier(tier),
@@ -58,20 +58,20 @@ Weapon::Weapon(std::string name, char tier, WeaponSize size, int base_damage,
 // ******************** WEAPON ********************
 
 // static variables
-EmptyWeaponSLot *EmptyWeaponSLot::no_missile = new EmptyWeaponSLot("empty", 'X',
+EmptyWeaponSLot *EmptyWeaponSLot::no_missile = new EmptyWeaponSLot("empty", 99,
     WeaponSize::missile, 0, 0, 0, 0);
-EmptyWeaponSLot *EmptyWeaponSLot::no_heavy = new EmptyWeaponSLot("empty", 'X',
+EmptyWeaponSLot *EmptyWeaponSLot::no_heavy = new EmptyWeaponSLot("empty", 99,
     WeaponSize::large, 0, 0, 0, 0);
-EmptyWeaponSLot *EmptyWeaponSLot::no_medium = new EmptyWeaponSLot("empty", 'X',
+EmptyWeaponSLot *EmptyWeaponSLot::no_medium = new EmptyWeaponSLot("empty", 99,
     WeaponSize::medium, 0, 0, 0, 0);
-EmptyWeaponSLot *EmptyWeaponSLot::no_light = new EmptyWeaponSLot("empty", 'X',
+EmptyWeaponSLot *EmptyWeaponSLot::no_light = new EmptyWeaponSLot("empty", 99,
     WeaponSize::small, 0, 0, 0, 0);
 
 // EmptyWeaponSlot getters
 int         EmptyWeaponSLot::getDamage(double dist) { /* stub*/ return 0; }
 
 // constructor
-EmptyWeaponSLot::EmptyWeaponSLot(std::string name, char tier, WeaponSize size, int base_damage,
+EmptyWeaponSLot::EmptyWeaponSLot(std::string name, uchar tier, WeaponSize size, int base_damage,
         int fire_rate, int range, int power) :
     Weapon(name, tier, size, base_damage, fire_rate, range, power) { }
 
@@ -111,7 +111,7 @@ int         Beam::calcDamage(double dist)       {
 }
 
 // constructors
-Beam::Beam(std::string name, char tier, WeaponSize size, int base_damage, int fire_rate, int range, int power, int er) :
+Beam::Beam(std::string name, uchar tier, WeaponSize size, int base_damage, int fire_rate, int range, int power, int er) :
     Weapon(name, tier, size, base_damage, fire_rate, range, power),
     m_eff_rng(er) { }
 
@@ -146,7 +146,7 @@ bool        Kinetic::operator!=(const Kinetic &k) const {
 }
 
 // constructors
-Kinetic::Kinetic(std::string name, char tier, WeaponSize size, int base_damage, int fire_rate, int range, int power, int max_ammo, int curr_ammo) :
+Kinetic::Kinetic(std::string name, uchar tier, WeaponSize size, int base_damage, int fire_rate, int range, int power, int max_ammo, int curr_ammo) :
     Weapon(name, tier, size, base_damage, fire_rate, range, power),
     m_max_ammo(max_ammo),
     m_curr_ammo(curr_ammo) { }
@@ -184,7 +184,7 @@ bool        Missile::operator!=(const Missile &m) const {
 }
 
 // constructors
-Missile::Missile(std::string name, char tier, WeaponSize size, int base_damage,
+Missile::Missile(std::string name, uchar tier, WeaponSize size, int base_damage,
     int fire_rate, int range, int power, int speed, float trck, int hull) :
     Weapon(name, tier, size, base_damage, fire_rate, range, power),
     m_speed(speed),

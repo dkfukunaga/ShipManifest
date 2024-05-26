@@ -12,13 +12,13 @@
 
 // getters
 std::string Component::getName() const          { return m_name; }
-char        Component::getTier() const          { return m_tier; }
+uchar       Component::getTier() const          { return m_tier; }
 int         Component::getMass() const          { return m_mass; }
 int         Component::getPower() const         { return m_power; }
 
 // setters
 void        Component::setName(std::string name) { m_name = name; }
-void        Component::setTier(char tier)       { m_tier = tier; }
+void        Component::setTier(uchar tier)      { m_tier = tier; }
 void        Component::setMass(int mass)        { m_mass = mass; }
 void        Component::setPower(int power)      { m_power = power; }
 
@@ -34,7 +34,7 @@ bool        Component::operator!=(const Component &c) const {
 }
 
 // constructors
-Component::Component(std::string name, char tier, int mass, int power) :
+Component::Component(std::string name, uchar tier, int mass, int power) :
     m_name(name),
     m_tier(tier),
     m_mass(mass),
@@ -70,7 +70,7 @@ void        Reactor::use()                      {
 }
 
 // constructors
-Reactor::Reactor(std::string name, char tier, int mass, int power, int power_gen,
+Reactor::Reactor(std::string name, uchar tier, int mass, int power, int power_gen,
     int fire_rate, int rel) :
     Component(name, tier, mass, power),
     m_power_gen(power_gen),
@@ -113,7 +113,7 @@ void        SubDrive::use()                     {
 }
 
 // constructors
-SubDrive::SubDrive(std::string name, char tier, int mass, int power,
+SubDrive::SubDrive(std::string name, uchar tier, int mass, int power,
     int accel, int maneuver, int speed) :
     Component(name, tier, mass, power),
     m_accel(accel),
@@ -157,7 +157,7 @@ void        FTLDrive::use()                     {
 }
 
 // constructors
-FTLDrive::FTLDrive(std::string name, char tier, int mass, int power,
+FTLDrive::FTLDrive(std::string name, uchar tier, int mass, int power,
     int charge_rate, ShipSize size, int fuel_use) :
     Component(name, tier, mass, power),
     m_charge_rate(charge_rate),

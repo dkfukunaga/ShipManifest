@@ -13,7 +13,7 @@
 class Weapon {
 protected:
     std::string     m_name;
-    char            m_tier;
+    uchar           m_tier;
     WeaponSize      m_size;
     int             m_base_damage;
     int             m_fire_rate;
@@ -23,7 +23,7 @@ protected:
 public:
     // getters
     std::string     getName() const;
-    char            getTier() const;
+    uchar           getTier() const;
     WeaponSize      getSize() const;
     int             getBaseDamage() const;
     int             getFireRate() const;
@@ -32,7 +32,7 @@ public:
 
     // setters
     void            setName(std::string name);
-    void            setTier(char tier);
+    void            setTier(uchar tier);
     void            setSize(WeaponSize size);
     void            setBaseDamage(int base_dmg);
     void            setFireRate(int fire_rate);
@@ -47,7 +47,7 @@ public:
     virtual int     getDamage(double dist) = 0;
 
     // constructor
-    Weapon(std::string name = "NONE", char tier = 'C', WeaponSize size = WeaponSize::small,
+    Weapon(std::string name = "NONE", uchar tier = 'C', WeaponSize size = WeaponSize::small,
         int base_dmg = 0, int fire_rate = 0, int range = 0, int power = 0);
 };
 
@@ -67,7 +67,7 @@ class EmptyWeaponSLot : public Weapon {
     int             getDamage(double dist) override;
 
     // constructor
-    EmptyWeaponSLot(std::string name = "NONE", char tier = 'C',
+    EmptyWeaponSLot(std::string name = "NONE", uchar tier = 'C',
         WeaponSize size = WeaponSize::small, int base_dmg = 0, int fire_rate = 0,
         int range = 0, int power = 0);
 };
@@ -96,7 +96,7 @@ public:
     int             getDamage(double dist) override;
 
     // constructors
-    Beam(std::string name = "NONE", char tier = 'C', WeaponSize size = WeaponSize::small,
+    Beam(std::string name = "NONE", uchar tier = 'C', WeaponSize size = WeaponSize::small,
         int base_dmg = 0, int fire_rate = 0, int range = 0, int power = 0,
         int eff_range = 0);
     Beam(Beam &other);
@@ -125,7 +125,7 @@ public:
     int             getDamage(double dist) override;
 
     // constructors
-    Kinetic(std::string name = "NONE", char tier = 'C', WeaponSize size = WeaponSize::small,
+    Kinetic(std::string name = "NONE", uchar tier = 'C', WeaponSize size = WeaponSize::small,
         int base_dmg = 0, int fire_rate = 0, int range = 0, int power = 0,
         int max_ammo = 0, int curr_ammo = 0);
     Kinetic(Kinetic &other);
@@ -156,7 +156,7 @@ public:
     int             getDamage(double dist) override;
 
     // constructors
-    Missile(std::string name = "NONE", char tier = 'C', WeaponSize size = WeaponSize::small,
+    Missile(std::string name = "NONE", uchar tier = 'C', WeaponSize size = WeaponSize::small,
         int base_dmg = 0, int fire_rate = 0, int range = 0, int power = 0,
         int speed = 0, float tracking = 0.0, int hull = 0);
     Missile(Missile &other);

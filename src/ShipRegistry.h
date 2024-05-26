@@ -79,8 +79,10 @@ public:
     bool            operator>=(const ShipRegistry &s) const;
 
     // constructors
-    ShipRegistry(ShipFlagCode flag_code, ShipFTL ftl, ShipSize size, ShipType type, int uid);
-    ShipRegistry();
+    ShipRegistry(ShipFlagCode flag_code = ShipFlagCode::union_of_earth,
+        ShipFTL ftl = ShipFTL::system, ShipSize size = ShipSize::drone,
+        ShipType type = ShipType::private_owner, int uid = 0);
+    // ShipRegistry();
 };
 
 

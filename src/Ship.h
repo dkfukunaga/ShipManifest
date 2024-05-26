@@ -66,6 +66,7 @@ struct ShipClass {
 
     // getter
     std::string     getSize() const;
+    ShipSize        getSizeCode() const;
 
     // constructor
     ShipClass(std::string class_name = "NONAME", int num_off = 0, int num_crew = 0,
@@ -76,8 +77,11 @@ struct ShipClass {
 
 
 struct Ship {
+private:
+    static ShipRegistry *def_reg;
+public:
     // member variables
-    ShipRegistry    registry;
+    ShipRegistry*   registry;
     std::string     name;
     std::string     commander;
     std::string     engineer;
@@ -86,8 +90,10 @@ struct Ship {
     ShipComponents  components;
     ShipWeapons     weapons;
 
+    // ShipRegistry*   getRegistry();
+
     // constructor
-    Ship(ShipRegistry reg = ShipRegistry(), std::string ship_name = "UNNAMED",
+    Ship(ShipRegistry *reg = def_reg, std::string ship_name = "UNNAMED",
          std::string cmdr = "COMMANDER", std::string engi = "ENGINEER",
          ShipClass *shp_class = ShipClass::place_holder);
 };

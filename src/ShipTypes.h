@@ -128,12 +128,14 @@ static const char ship_type_codes[] = { 'C', 'T', 'F', 'I', 'X', 'V', 'Z' };
 
 
 // weapon sizes
-enum class WeaponSize {
+enum class WeaponSize : unsigned char {
     small   = 1,
     medium  = 2,
     large   = 3,
-    missile
+    missile = 4
 };
+
+
 
 
 #endif
