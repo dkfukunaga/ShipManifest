@@ -130,9 +130,9 @@ x   Index[x]        *missile_weapons
 
 ShipRegistry
 ----
-3   FlagCode            flag_code           // 3 character flag code
-1   HullRating          hull_rating         // ftl and use rating
-4   uint32_t            hull_id             // unique 8-digit hull identification number
+3   FlagCode        flag_code               // 3 character flag code
+1   HullRating      hull_rating             // ftl and use rating
+4   uint32_t        hull_id                 // unique 8-digit hull identification number
 ----
 8
 
@@ -141,18 +141,17 @@ HullRating
 bits    0x0000 0000
           FTL  use
 
-FTL rating:
-    0   system              // A
-    1   gate                // B
-    2   restrictred         // C
-    3   unrestricted        // X
-use rating:
-    0   personal            // C
-    1   passenger           // D
-    2   merchant            // M
-    3   industrial          // N
-    4   exploration         // X
-    5   government          // Z
+FTL rating:     0   system                  // A
+                1   gate                    // B
+                2   restricted              // C
+                3   unrestricted            // X
+
+use rating:     0   personal                // C
+                1   passenger               // D
+                2   merchant                // M
+                3   industrial              // N
+                4   exploration             // X
+                5   government              // Z
 
 
 
