@@ -50,27 +50,28 @@ ChunkType:          "SHP"           // Ship record
 
 
 
-MagicBytes:	 		CA 70 CA FE 53 48 49 50
-eof: 				0E 0F
+MagicBytes:         CA 70 CA FE 53 48 49 50
+eof:                0E 0F
 
 FILE HEADER
 ----
-8	byte[8]			magic_bytes     // CA 70 CA FE 53 48 49 50
-4	char[4]			file_type
-1	char			file_version    // 1
-1	byte			file_flags
+8   byte[8]         magic_bytes     // CA 70 CA FE 53 48 49 50
+4   char[4]         file_type
+1   char            file_version    // 1
+1	Flags           file_flags
 4   int32_t         file_size
 4   Offset 			index_offset
 4   Offset          data_offset
-4   uint32_t        data_count      // number of entries
-2	char[2]			head_padding
+6	char[6]			head_padding
 ----
 32
 
 INDEX HEADER
 ----
-4   uint32_t        index_size
-4   uint32_t        index_count
+2   chunk_size_t    index_size
+2   uint16_t        index_count
+2   uint16_t        record_size
+2   char[2]         head_padding
 ----
 8
 
@@ -86,7 +87,7 @@ CHUNK HEADER
 ----
 3   char[3]         chunk_type
 1   byte            chunk_flags
-2   uint32_t        chunk_size
+2   uint16_t        chunk_size
 2   Index           chunk_index     // important for redirected chunks to maintain correct file index
 4   Offset          chunk_redirect  // offset of redirected record for resized records
 ----
