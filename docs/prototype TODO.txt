@@ -1,0 +1,5 @@
+
+- create a simple struct of data fields to write to file as test
+- create prototype file header
+- create framework for opening, writing to, and reading from binary file
+- write a simple test script to test prototype
