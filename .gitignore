@@ -27,7 +27,7 @@
 *.lib
 
 # Executables
-#*.exe
+*.exe
 *.out
 *.app
 
@@ -36,3 +36,7 @@
 
 # .vscode files
 .vscode*
+
+# DataFiles
+*.dat
+*.dt*
