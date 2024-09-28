@@ -11,11 +11,11 @@ if this file format was used for a saved game file, chunk types would be mixed. 
 
 
 File Format:        FileHeader
-                    IndexHeader
-                    IndexTable
                     ChunkHeader
                     ChunkData
                     ...
+                    IndexHeader
+                    IndexTable
                     EOF
 
 file_flags:
@@ -61,19 +61,20 @@ ChunkType:          "SHP"           // Ship record
 
 
 
-MagicBytes:         CA 70 CA FE 53 48 49 50
+MagicBytes:         0C A7 CA FE 53 48 49 50 44 42 00
+                                 S  H  I  P  D  B \0
 eof:                0E 0F
 
 FILE HEADER
 ----
-11  byte[11]        magic_bytes     // 0C A7 CA FE 53 48 49 80 44 42 00
-1   uint8_t         file_type                       S  H  I  P  D  B \0
+11  byte[11]        magic_bytes
+1   uint8_t         file_type
 1   char            file_version    // 1
 1	Flags           file_flags
-4   int32_t         file_size
-4   Offset 			index_offset
+4   uint32_t        file_size
+4   offset_t        index_offset
 4   offset_t        data_offset
-6	char[6]			head_padding
+6	char[6]         head_padding
 ----
 32
 
@@ -130,7 +131,7 @@ x   char[x]         name
 2   index_t         *computer_system_index
 2   index_t         *armor_type_index
 2   index_t         *shield_generator_index
-4   WeaponSlots     weapon_slots
+8   WeaponSlots     weapon_slots
 x   Index[x]        *light_weapons          // index in weapons file
 x   Index[x]        *medium_weapons
 x   Index[x]        *heavy_weapons
@@ -189,19 +190,16 @@ StarShip : AbstractShip
 
 WeaponSlots
 ----
-bits    0x0000 0000 0000 0000 0000 0000 0000 0000
-          LLLL MMMM HHHH SSSS llll mmmm hhhh ssss
-
-max 15 slots of any one type
-
-L   max light slots
-M   max medium slots
-H   max heavy slots
-S   max missile slots
-l   occupied light slots
-m   occupied medium slots 
-h   occupied heavy slots
-s   occupied missile slots
+1   uint8_t         max light slots
+1   uint8_t         max medium slots
+1   uint8_t         max heavy slots
+1   uint8_t         max missile slots
+1   uint8_t         occupied light slots
+1   uint8_t         occupied medium slots
+1   uint8_t         occupied heavy slots
+1   uint8_t         occupied missile slots
+----
+8
 
 
 

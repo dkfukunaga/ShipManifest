@@ -2,6 +2,7 @@
 
 #include "testItem.cpp"
 #include <iostream>
+#include <filesystem>
 
 int main() {
     std::string str_1 = "Hello world!";
@@ -72,6 +73,43 @@ int main() {
     std::cout << "Test 5: \n" << read_test_5.toString() << "\n\n";
 
     file.close();
+
+    // get list of files in directory
+
+    std::vector<std::string> paths;
+    paths.push_back(".\\doctest\\");
+
+    int slash_index, dot_index;
+    std::string temp;
+
+    for (int i = 0; i < paths.size(); ++i) {
+        std::cout << paths[i] << std::endl;
+        for (const auto &entry : std::filesystem::directory_iterator(paths[i])) {
+            slash_index = entry.path().string().find_last_of("\\");
+            if (slash_index != std::string::npos) {
+                dot_index = entry.path().string().substr(slash_index).find_last_of('.');
+                if (dot_index == std::string::npos) {
+                    paths.push_back(entry.path().string());
+                }
+            }
+            slash_index = entry.path().string().find_last_of("\\");
+            std::cout << "    " << entry.path().string().substr(++slash_index) << std::endl;
+        }
+    std::cout << std::endl;
+    }
+
+    // path: .\doctest\
+    //   .\doctest\data
+    //   .\doctest\DataFileTest.cpp
+    //   .\doctest\doctest.h
+    //   .\doctest\testDriver.cpp
+    //   .\doctest\testItem.cpp
+    //   .\doctest\testItem.h
+    //
+    // path: .\doctest\data
+    //   .\doctest\data\test.dat
+    //   .\doctest\data\test_file.dt2
+    //   .\doctest\data\test_name.dat
 
     return 0;
 }

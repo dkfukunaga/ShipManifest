@@ -108,7 +108,7 @@ public:
 
     // utility functions
 
-    void                            hexDump(int64_t start, int64_t size);
+    void                            hexDump(int64_t start, int64_t len);
     void                            hexDump();
 
     // static constants
