@@ -31,7 +31,7 @@ uint8_t
 1   FileFlags       good            // 0x00000001
 1   FileFlags       modified        // 0x00000010
 1   FileFlags       rebuild_index   // 0x00000100
-1   FileFlags       resort          // 0x00001000
+1   FileFlags       sort            // 0x00001000
 1   FileFlags       open            // 0x00010000
 1   FileFlags       bad             // 0x10000000
 

@@ -14,7 +14,7 @@ enum class FileFlags : uint8_t {
     good            = 0b00000001,   // no errors
     modified        = 0b00000010,   // file has been modifed
     rebuild_index   = 0b00000100,   // index needs rebuild
-    resort          = 0b00001000,   // data needs resort
+    sort            = 0b00001000,   // data needs resort
     open            = 0b00010000,   // file is open
     bad             = 0b10000000,   // unspecified error
 };
