@@ -1,0 +1,18 @@
+
+
+- implement serializable interface? (abstract class)
+    - objects responsible for serializing their own DataRecord headers
+    - Database responsible for writing and maintaining
+        - FileHeader
+        - SectionHeader
+        - TableHeader
+        - Index
+        - tracks size and count as records are written
+- implement data classes
+    - components
+        - subsystems
+        - weapons
+    - officers
+    - ship classes
+    - ships
+
