@@ -7,101 +7,109 @@ new entries added to end with a separate index kept in memory
 modified entries that change size are flagged deleted and the modified version added to the end
 eof shifted to end
 
-if this file format was used for a saved game file, chunk types would be mixed. might need multiple indices? although wouldn't the whole file just be loaded?
 
 
 File Format:        FileHeader
-                    ChunkHeader
-                    ChunkData
-                    ...
-                    IndexHeader
-                    IndexTable
+                    DataSection
+                      DataTable
+                      ...
+                    IndexSection
+                      IndexTable
+                      ...
                     EOF
 
-file_flags:
-    good            0x0000 0001
-    modified        0x0000 0010     // set if anything in the file was ever changed this session
-    index rebuild   0x0000 0100     // set if index needs to be rebuilt
-    file rebuild    0x0000 1000     // set if chunks needs to be resorted and file rebuilt
-    open            0x0001 0000     // set if file is open and being accessed
-    bad             0x1000 0000     // for any kind of error
 
-chunk_flags:
-    good            0x0000 0001
-    modified        0x0000 0010     // set if record has been changed this session
-    incomplete      0x0000 0100     // set if record is missing required data
-    deleted         0x0000 1000     // set if record has been deleted
-    relocate        0x0001 0000     // set if record has been relocated
-    resort          0x0010 0000     // set if record needs to be resorted
-    bad             0x1000 0000     // for any kind of error
+typedefs
+----
+offset_t            uint32_t
+index_t             uint16_t
 
 
-FileType:           "SHIP"          // Ship database
-                    "SCLS"          // Ship Class database
-                    "SSYS"          // Subsystem database
-                    "WEAP"          // Weapons database
-                    "OFFR"          // Officer database
-                    0x00            // empty file
-                    0x11            // Ship database
-                    0x12            // Ship Class database
-                    0x21            // Subsystem database
-                    0x22            // Weapon database
-                    0x31            // Officer database
+FILE FLAGS
+uint8_t
+----
+1   FileFlags       good            // 0x00000001
+1   FileFlags       modified        // 0x00000010
+1   FileFlags       rebuild_index   // 0x00000100
+1   FileFlags       resort          // 0x00001000
+1   FileFlags       open            // 0x00010000
+1   FileFlags       bad             // 0x10000000
 
-ChunkType:          "SHP"           // Ship record
-                    "CLS"           // ShipClass record
-                    "SYS"           // Subsystem record
-                    "WPN"           // Weapon record
-                    "OFF"           // Officer record
-                    0xA1            // Ship record
-                    0xA2            // ShipClass record
-                    0xB1            // Subsystem record
-                    0xB2            // Weapon record
-                    0xC1            // Officer record
+FILE SIGNATURE
+uint8_t[10]
+----
+10  uint8_t[10]     ship_registry   // 0x0C 0xA7 0xCA 0xFE 0x53 0x48 0x50 0x52 0x45 0x47
+                                    // ("....SHPREG")
 
+FILE TYPE
+uint8_t[4]
+----
+4   FileType        ships           // 0x53 0x48 0x4C 0x50 ("SHIP")
+4   FileType        ship_classes    // 0x53 0x43 0x76 0x53 ("SCLS")
+4   FileType        ship_components // 0x53 0x43 0x4D 0x50 ("SCMP")
+4   FileType        game_characters // 0x47 0x43 0x48 0x52 ("GCHR")
 
+SECTION TYPE
+uint8_t[4]
+----
+4   SectionType     data            // 0x3A 0x44 0x41 0x54 (":DAT")
+4   SectionType     index           // 0x3A 0x4C 0x44 0x58 (":IDX")
+4   SectionType     eof             // 0x3A 0x45 0x4F 0x46 (":EOF")
 
-MagicBytes:         0C A7 CA FE 53 48 49 50 44 42 00
-                                 S  H  I  P  D  B \0
-eof:                0E 0F
+DATA TYPE
+uint8_t[2]
+----
+2   DataType        ship            // 0x53 0x50 ("SP")
+2   DataType        ship_class      // 0x43 0x76 ("CL")
+2   DataType        subsystem       // 0x53 0x42 ("SB")
+2   DataType        weapon          // 0x57 0x50 ("WP")
+2   DataType        officer         // 0x4F 0x46 ("OF")
+
 
 FILE HEADER
 ----
-11  byte[11]        magic_bytes
-1   uint8_t         file_type
-1   char            file_version    // 1
-1	Flags           file_flags
-4   uint32_t        file_size
-4   offset_t        index_offset
-4   offset_t        data_offset
-6	char[6]         head_padding
+10  FileSig         sig             // file signature
+1	FileFlags       flags           // file status flags
+1   char            version         // version number
+4   FileType        type            // file type
+4   uint32_t        size            // size of file in bytes
+4   offset_t        index_offset    // offset of index section
 ----
-32
+24
 
-INDEX HEADER
+SECTION HEADER
 ----
-2   chunk_size_t    index_size
-2   uint16_t        index_count
-2   uint16_t        record_size
+4   uint32_t        size            // size of section in bytes (excluding header)
+4   SectionType     type            // data, index, eof
 ----
-6
+8
+
+TABLE HEADER
+----
+4   uint32_t        size            // size of table in bytes (excluding header)
+2   datatype_t      type            // ship, ship_class, subsystem, weapon, officer
+2   uint16_t        count           // count of records in table
+----
+8
+
+DATA RECORD
+----
+2   index_t         index           // 0 value indicates deleted record
+2   uint16_t        size            // size of record in bytes (excluding header)
+4   offset_t        redirect        // non-zero value gives offset for relocated record
+----
+8
 
 INDEX RECORD
 ----
-2   index_t         entry_index
-4   offset_t        entry_offset
+2   index_t         index           // data record index
+4   offset_t        offset          // data record offset
 ----
 6
 
-CHUNK HEADER
-----
-1   uint8_t         chunk_type
-1   uint8_t         chunk_flags
-2   uint16_t        chunk_size
-2   index_t         chunk_index     // important for redirected chunks to maintain correct file index
-4   offset_t        chunk_redirect  // offset of redirected record for resized records
-----
-10
+
+
+
 
 
 SHIP CHUNK

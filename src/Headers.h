@@ -5,106 +5,122 @@
 
 #include <cstdint>
 
-typedef uint32_t offset_t;
-typedef uint16_t index_t;
+typedef uint32_t    offset_t;
+typedef uint16_t    index_t;
 
 
-
-
+// File status flags
 enum class FileFlags : uint8_t {
-    good            = 0b00000001,
-    modified        = 0b00000010,
-    rebuild_index   = 0b00000100,
-    sort            = 0b00001000,
-    open            = 0b00010000,
-    bad             = 0b10000000,
+    good            = 0b00000001,   // no errors
+    modified        = 0b00000010,   // file has been modifed
+    rebuild_index   = 0b00000100,   // index needs rebuild
+    resort          = 0b00001000,   // data needs resort
+    open            = 0b00010000,   // file is open
+    bad             = 0b10000000,   // unspecified error
 };
 
-enum class DataFlags : uint8_t {
-    good            = 0b00000001,
-    modified        = 0b00000010,
-    incomplete      = 0b00000100,
-    deleted         = 0b00001000,
-    relocated       = 0b00010000,
-    bad             = 0b10000000,
+// 10 byte file signature
+struct FileSig {
+    uint8_t         sig[10];
+
+    static const FileSig ship_registry;
 };
 
-struct FileID {
-    uint8_t         magic_bytes[10];
+// Ship Registry file signature
+// 0C A7 CA FE 53 48 50 52 45 47 (....SHPREG)
+const FileSig FileSig::ship_registry = {0x0C, 0xA7, 0xCA, 0xFE, 'S', 'H', 'P', 'R', 'E', 'G'};
 
-    static const FileID ship_db;
-};
-
-const FileID FileID::ship_db = {0x0C, 0xA7, 0xCA, 0xFE, 'S', 'H', 'I', 'P', 'D', 'B'};
-
+// 4 char file type id
 struct FileType {
-    char            type[4];
+    uint8_t         type[4];
 
     static const FileType ships;
     static const FileType ship_classes;
-    static const FileType subsystems;
-    static const FileType weapons;
-    static const FileType officers;
+    static const FileType ship_components;
+    static const FileType game_characters;
 };
 
-const FileType FileType::ships          = {'S', 'H', 'I', 'P'};
-const FileType FileType::ship_classes   = {'S', 'C', 'L', 'S'};
-const FileType FileType::subsystems     = {'S', 'S', 'Y', 'S'};
-const FileType FileType::weapons        = {'W', 'E', 'A', 'P'};
-const FileType FileType::officers       = {'O', 'F', 'C', 'R'};
+// Ships database file "SHIP"
+const FileType FileType::ships              = {'S', 'H', 'I', 'P'};
+// Ship Classes database file "SHLS"
+const FileType FileType::ship_classes       = {'S', 'C', 'L', 'S'};
+// Ship Components database file "SCMP"
+const FileType FileType::ship_components    = {'S', 'C', 'M', 'P'};
+// Game Characters database file "GCHR"
+const FileType FileType::game_characters    = {'G', 'C', 'H', 'R'};
 
-struct ChunkType {
-    char            type[4];
+// 4 char section type id
+struct SectionType {
+    uint8_t         type[4];
 
-    static const ChunkType ship;
-    static const ChunkType ship_class;
-    static const ChunkType subsystem;
-    static const ChunkType weapon;
-    static const ChunkType officer;
-    static const ChunkType index;
-    static const ChunkType eof;
+    static const SectionType data;
+    static const SectionType index;
+    static const SectionType eof;
 };
 
-const ChunkType ChunkType::ship         = {0xFF, 0xFF, 'S', 'P'};
-const ChunkType ChunkType::ship_class   = {0xFF, 0xFF, 'C', 'L'};
-const ChunkType ChunkType::subsystem    = {0xFF, 0xFF, 'S', 'B'};
-const ChunkType ChunkType::weapon       = {0xFF, 0xFF, 'W', 'P'};
-const ChunkType ChunkType::officer      = {0xFF, 0xFF, 'O', 'F'};
-const ChunkType ChunkType::index        = {0xFF, 0xFF, 'I', 'N'};
-const ChunkType ChunkType::eof          = {0xFF, 0xFF, 0X99, 0X3A};
+// Data section ":DAT"
+const SectionType SectionType::data     = {':', 'D', 'A', 'T'};
+// Index section ":IDX"
+const SectionType SectionType::index    = {':', 'I', 'D', 'X'};
+// End Of File ":EOF"
+const SectionType SectionType::eof      = {':', 'E', 'O', 'F'};
 
+// 2 byte data type id
+struct DataType {
+    uint8_t         type[2];
 
+    static const DataType ship;
+    static const DataType ship_class;
+    static const DataType subsystem;
+    static const DataType weapon;
+    static const DataType officer;
+};
 
+// Ship data "SP"
+const DataType DataType::ship       = {'S', 'P'};
+// ShipClass data "CL"
+const DataType DataType::ship_class = {'C', 'L'};
+// Subsystem data "SB"
+const DataType DataType::subsystem  = {'S', 'B'};
+// Weapon data "WP"
+const DataType DataType::weapon     = {'W', 'P'};
+// Officer data "OF"
+const DataType DataType::officer    = {'O', 'F'};
+
+// File Header
 struct FileHeader {
-    FileID          id = FileID::ship_db;
-    FileFlags       flags;
-    uint8_t         version = 1;
-    FileType        type;
-    uint32_t        size;
-    offset_t        data_offset = 0;
-    offset_t        index_offset = 0;
-    uint8_t         padding[4] = {0};
+    FileSig         sig = FileSig::ship_registry;   // file signature
+    FileFlags       flags;          // file status flags
+    uint8_t         version;        // file version
+    FileType        type;           // file type
+    uint32_t        size;           // file size in bytes
+    offset_t        index_offset;   // offset of index section
 };
 
-struct  ChunkHeader {
-    ChunkType       type;
-    uint16_t        size = 0;
+// Section header
+struct SectionHeader {
+    uint32_t        size;           // size of section in bytes, excluding header
+    SectionType     type;           // type of section
 };
 
-struct DataEntry {
-    DataFlags       flags;
-    index_t         index;
-    uint32_t        redirect = 0;
+// Table header
+struct TableHeader {
+    uint32_t        size;           // size of table in bytes, excluding header
+    DataType        type;           // type of data in table
+    uint16_t        count;          // count of records in table
 };
 
-struct IndexTable {
-    uint16_t        count;
-    uint16_t        entry_size;
+// header for Data record
+struct DataRecord {
+    index_t         index;          // 0 indicates deleted record
+    uint16_t        size;           // size of record in bytes, excluding header
+    offset_t        redirect;       // 0 indicates no redirect
 };
 
-struct IndexEntry {
-    index_t         index;
-    offset_t        offset;
+// Index record
+struct IndexRecord {
+    index_t         index;          // data record index
+    offset_t        offset;         // data record offset
 };
 
 
