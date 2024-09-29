@@ -1,5 +1,8 @@
 
+DATAFILE:
+- implement DataFile assignment operator
 
+DATABASE:
 - implement serializable interface? (abstract class)
     - objects responsible for serializing their own DataRecord headers
     - Database responsible for writing and maintaining
@@ -8,6 +11,8 @@
         - TableHeader
         - Index
         - tracks size and count as records are written
+
+COMPONENTS:
 - implement data classes
     - components
         - subsystems
