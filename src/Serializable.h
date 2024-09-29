@@ -13,7 +13,7 @@ public:
     void                setFile(DataFile &file);
 protected:
     DataFile&           data_file_;
-
+private:
     virtual uint32_t    serializeHeader() const = 0;
     virtual uint32_t    serializeData() const = 0;
 };
