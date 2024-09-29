@@ -111,7 +111,7 @@ struct TableHeader {
 };
 
 // header for Data record
-struct DataRecord {
+struct DataRecordHeader {
     index_t         index;          // 0 indicates deleted record
     uint16_t        size;           // size of record in bytes, excluding header
     offset_t        redirect;       // 0 indicates no redirect
