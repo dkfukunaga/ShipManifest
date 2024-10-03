@@ -29,8 +29,8 @@ uint32_t Serializable::serialize(DataFile &file) const {
 
     uint32_t size = 0;
 
-    writeHeader(file);
-    size = serializeData(file);
+    size += writeHeader(file);
+    size += serializeData(file);
 
     return size;
 }
