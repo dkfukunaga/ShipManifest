@@ -9,7 +9,7 @@
 
 class Serializable {
 public:
-    virtual ~Serializable() = default;
+    virtual             ~Serializable() = default;
     virtual recsize_t   getSize() const = 0;
 
     void                serialize(DataFile &file, index_t index, offset_t offset) const;
