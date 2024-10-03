@@ -10,56 +10,56 @@
 class Serializable {
 public:
     virtual ~Serializable() = default;
+    virtual recsize_t   getSize() const = 0;
 
-    uint32_t            serialize(DataFile &file) const;
-    uint32_t            serialize(DataFile &file, int64_t pos) const;
-    void                deserialize(DataFile &file);
-    void                deserialize(DataFile &file, int64_t pos);
-private:
-    virtual uint32_t    writeHeader(DataFile &file) const = 0;
-    virtual uint32_t    serializeData(DataFile &file) const = 0;
-    virtual void        readHeader(DataFile &file) = 0;
+    void                serialize(DataFile &file, index_t index, offset_t offset) const;
+    void                serialize(DataFile &file, index_t index, offset_t offset, int64_t pos) const;
+    index_t             deserialize(DataFile &file);
+    index_t             deserialize(DataFile &file, int64_t pos);
+protected:
+    virtual void        writeHeader(DataFile &file, index_t index, recsize_t size, offset_t offset) const = 0;
+    virtual void        serializeData(DataFile &file) const = 0;
+    virtual index_t     readHeader(DataFile &file) = 0;
     virtual void        deserializeData(DataFile &file) = 0;
 };
 
-uint32_t Serializable::serialize(DataFile &file) const {
-    if (!file.isOpen()) {
-        return 0;
-    }
 
-    uint32_t size = 0;
-
-    size += writeHeader(file);
-    size += serializeData(file);
-
-    return size;
-}
-
-uint32_t Serializable::serialize(DataFile &file, int64_t pos) const {
-    if (!file.isOpen()) {
-        return 0;
-    }
-    file.setWritePos(pos);
-
-    return serialize(file);
-}
-
-void Serializable::deserialize(DataFile &file) {
+void Serializable::serialize(DataFile &file, index_t index, offset_t offset) const {
     if (!file.isOpen()) {
         return;
     }
 
-    readHeader(file);
-    deserializeData(file);
+    writeHeader(file, index, getSize(), offset);
+    serializeData(file);
 }
 
-void Serializable::deserialize(DataFile &file, int64_t pos) {
+void Serializable::serialize(DataFile &file, index_t index, offset_t offset, int64_t pos) const {
+    if (!file.isOpen()) {
+        return;
+    }
+    file.setWritePos(pos);
+
+    serialize(file, index, offset);
+}
+
+index_t Serializable::deserialize(DataFile &file) {
+    if (!file.isOpen()) {
+        return;
+    }
+
+    index_t index = readHeader(file);
+    deserializeData(file);
+
+    return index;
+}
+
+index_t Serializable::deserialize(DataFile &file, int64_t pos) {
     if (!file.isOpen()) {
         return;
     }
     file.setReadPos(pos);
 
-    deserialize(file);
+    return deserialize(file);
 }
 
 
