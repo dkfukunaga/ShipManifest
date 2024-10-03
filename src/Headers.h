@@ -5,8 +5,12 @@
 
 #include <cstdint>
 
-typedef uint32_t    offset_t;
-typedef uint16_t    index_t;
+
+typedef uint16_t    index_t;        // data record index
+typedef uint16_t    recsize_t;      // data record size in bytes
+typedef uint16_t    count_t;        // data record count
+typedef uint32_t    length_t;       // file or table size in bytes
+typedef uint32_t    offset_t;       // data record offset from file start
 
 
 // File status flags
@@ -52,7 +56,7 @@ const FileType FileType::game_characters    = {'G', 'C', 'H', 'R'};
 // 4 char section type id
 struct SectionType {
     uint8_t         type[4];
-
+ 
     static const SectionType data;
     static const SectionType index;
     static const SectionType eof;
@@ -93,27 +97,27 @@ struct FileHeader {
     FileFlags       flags;          // file status flags
     uint8_t         version;        // file version
     FileType        type;           // file type
-    uint32_t        size;           // file size in bytes
+    length_t        length;         // file size in bytes
     offset_t        index_offset;   // offset of index section
 };
 
 // Section header
 struct SectionHeader {
-    uint32_t        size;           // size of section in bytes, excluding header
+    length_t        length;         // size of section in bytes, excluding header
     SectionType     type;           // type of section
 };
 
 // Table header
 struct TableHeader {
-    uint32_t        size;           // size of table in bytes, excluding header
+    length_t        length;         // size of table in bytes, excluding header
     DataType        type;           // type of data in table
-    uint16_t        count;          // count of records in table
+    count_t         count;          // count of records in table
 };
 
 // header for Data record
 struct DataRecordHeader {
     index_t         index;          // 0 indicates deleted record
-    uint16_t        size;           // size of record in bytes, excluding header
+    recsize_t       size;           // size of record in bytes, excluding header
     offset_t        redirect;       // 0 indicates no redirect
 };
 
