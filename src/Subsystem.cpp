@@ -29,11 +29,19 @@ index_t     Subsystem::readHeader(DataFile &file) {
 }
 
 void     Subsystem::serializeData(DataFile &file) const {
-
+    file.write(name);
+    file.write(&tier);
+    file.write(&mass);
+    file.write(&durability);
+    file.write(&power);
 }
 
 void     Subsystem::deserializeData(DataFile &file) {
-
+    file.read(name);
+    file.read(&tier);
+    file.read(&mass);
+    file.read(&durability);
+    file.read(&power);
 }
 
 
