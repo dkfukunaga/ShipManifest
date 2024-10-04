@@ -1,7 +1,7 @@
 
 
-#ifndef SUBSYSTEM_H
-#define SUBSYSTEM_H
+#ifndef SHIP_SUBSYSTEM_H
+#define SHIP_SUBSYSTEM_H
 
 #include "DataFile.h"
 #include "Headers.h"
