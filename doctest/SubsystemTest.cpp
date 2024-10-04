@@ -100,26 +100,40 @@ TEST_CASE("Deserialization test") {
         test_reactors[1] = new Reactor("Test reactor 2", 2, 55, 150, 200, 3);
         test_reactors[2] = new Reactor("Test reactor 3", 3, 60, 175, 250, 3);
 
+        offset_t offsets[3];
         file.open();
-        for (int i = 0; i < 3; ++i) {
-            test_reactors[i]->serialize(file, i+1, 0);
+        for (int i = 0; i < 2; ++i) {
+            offsets[i] = test_reactors[i]->serialize(file, i + 1, 0);
+            
         }
+        // manually change redirect of 3rd record to point to record 2
+        offsets[2] = test_reactors[2]->serialize(file, 0, offsets[1]);
+        // offset_t test_redirect = offsets[1];
+        // file.write(&test_redirect, offsets[2] + 4); // + 4 to skip index and size
         file.hexDump();
         file.close();
-
-        Reactor *read_reactors[3];
         for (int i = 0; i < 3; ++i) {
+            printf("Test reactor %d - offset %d (0x%02X)\n", i+1, offsets[i], offsets[i]);
+        }
+
+        Reactor *read_reactors[4];
+        for (int i = 0; i < 4; ++i) {
             read_reactors[i] = new Reactor();
         }
 
         file.open(OpenMode::readonly);
 
-        for (int i = 0; i < 3; ++i) {
-            index_t index = read_reactors[i]->deserialize(file);
+        index_t index;
+        for (int i = 0; i < 2; ++i) {
+            index = read_reactors[i]->deserialize(file);
             REQUIRE(index == i + 1);
         }
+        index = read_reactors[2]->deserialize(file, offsets[2]);
+        REQUIRE(index == 2);
+        index = read_reactors[3]->deserialize(file, offsets[1]);
+        REQUIRE(index == 2);
 
-        for (int i = 0; i < 3; ++i) {
+        for (int i = 0; i < 2; ++i) {
             CHECK(read_reactors[i]->name == test_reactors[i]->name);
             CHECK(read_reactors[i]->tier == test_reactors[i]->tier);
             CHECK(read_reactors[i]->mass == test_reactors[i]->mass);
@@ -127,6 +141,20 @@ TEST_CASE("Deserialization test") {
             CHECK(read_reactors[i]->power == test_reactors[i]->power);
             CHECK(read_reactors[i]->fuel_use == test_reactors[i]->fuel_use);
         }
+
+        CHECK(read_reactors[2]->name == test_reactors[1]->name);
+        CHECK(read_reactors[2]->tier == test_reactors[1]->tier);
+        CHECK(read_reactors[2]->mass == test_reactors[1]->mass);
+        CHECK(read_reactors[2]->durability == test_reactors[1]->durability);
+        CHECK(read_reactors[2]->power == test_reactors[1]->power);
+        CHECK(read_reactors[2]->fuel_use == test_reactors[1]->fuel_use);
+
+        CHECK(read_reactors[3]->name == test_reactors[1]->name);
+        CHECK(read_reactors[3]->tier == test_reactors[1]->tier);
+        CHECK(read_reactors[3]->mass == test_reactors[1]->mass);
+        CHECK(read_reactors[3]->durability == test_reactors[1]->durability);
+        CHECK(read_reactors[3]->power == test_reactors[1]->power);
+        CHECK(read_reactors[3]->fuel_use == test_reactors[1]->fuel_use);
     }
     file.close();
 }
