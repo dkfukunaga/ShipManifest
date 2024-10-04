@@ -12,34 +12,38 @@ public:
     virtual             ~Serializable() = default;
     virtual recsize_t   getSize() const = 0;
 
-    void                serialize(DataFile &file, index_t index, offset_t offset) const;
-    void                serialize(DataFile &file, index_t index, offset_t offset, int64_t pos) const;
+    offset_t            serialize(DataFile &file, index_t index, offset_t redirect) const;
+    offset_t            serialize(DataFile &file, index_t index, offset_t redirect, int64_t pos) const;
     index_t             deserialize(DataFile &file);
     index_t             deserialize(DataFile &file, int64_t pos);
 protected:
-    virtual void        writeHeader(DataFile &file, index_t index, recsize_t size, offset_t offset) const = 0;
+    virtual void        writeHeader(DataFile &file, index_t index, recsize_t size, offset_t redirect) const = 0;
     virtual void        serializeData(DataFile &file) const = 0;
     virtual index_t     readHeader(DataFile &file) = 0;
     virtual void        deserializeData(DataFile &file) = 0;
 };
 
 
-inline void Serializable::serialize(DataFile &file, index_t index, offset_t offset) const {
+inline offset_t Serializable::serialize(DataFile &file, index_t index, offset_t redirect) const {
     if (!file.isOpen()) {
-        return;
+        return 0;
     }
 
-    writeHeader(file, index, getSize(), offset);
+    offset_t record_offset = file.getWritePos();
+
+    writeHeader(file, index, getSize(), redirect);
     serializeData(file);
+    
+    return record_offset;
 }
 
-inline void Serializable::serialize(DataFile &file, index_t index, offset_t offset, int64_t pos) const {
+inline offset_t Serializable::serialize(DataFile &file, index_t index, offset_t redirect, int64_t pos) const {
     if (!file.isOpen()) {
-        return;
+        return 0;
     }
     file.setWritePos(pos);
 
-    serialize(file, index, offset);
+    return serialize(file, index, redirect);
 }
 
 inline index_t Serializable::deserialize(DataFile &file) {
