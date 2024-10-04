@@ -128,11 +128,6 @@ private:
 };
 
 
-/***** STATIC CONSTANTS *****/
-
-// uses ".dat" as default file extension.
-const std::string DataFile::default_file_extension = ".dat";
-const std::string DataFile::default_file_path = ".\\data\\";
 
 
 /***** TEMPLATED READ FUNCTIONS *****/
