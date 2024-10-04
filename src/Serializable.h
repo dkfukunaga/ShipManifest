@@ -1,7 +1,7 @@
 
 
-#ifndef SERIALIZABLE_H
-#define SERIALIZABLE_H
+#ifndef SERIALIZABLE_DATA_H
+#define SERIALIZABLE_DATA_H
 
 #include "DataFile.h"
 #include "Headers.h"
@@ -24,7 +24,7 @@ protected:
 };
 
 
-void Serializable::serialize(DataFile &file, index_t index, offset_t offset) const {
+inline void Serializable::serialize(DataFile &file, index_t index, offset_t offset) const {
     if (!file.isOpen()) {
         return;
     }
@@ -33,7 +33,7 @@ void Serializable::serialize(DataFile &file, index_t index, offset_t offset) con
     serializeData(file);
 }
 
-void Serializable::serialize(DataFile &file, index_t index, offset_t offset, int64_t pos) const {
+inline void Serializable::serialize(DataFile &file, index_t index, offset_t offset, int64_t pos) const {
     if (!file.isOpen()) {
         return;
     }
@@ -42,9 +42,9 @@ void Serializable::serialize(DataFile &file, index_t index, offset_t offset, int
     serialize(file, index, offset);
 }
 
-index_t Serializable::deserialize(DataFile &file) {
+inline index_t Serializable::deserialize(DataFile &file) {
     if (!file.isOpen()) {
-        return;
+        return 0;
     }
 
     index_t index = readHeader(file);
@@ -53,9 +53,9 @@ index_t Serializable::deserialize(DataFile &file) {
     return index;
 }
 
-index_t Serializable::deserialize(DataFile &file, int64_t pos) {
+inline index_t Serializable::deserialize(DataFile &file, int64_t pos) {
     if (!file.isOpen()) {
-        return;
+        return 0;
     }
     file.setReadPos(pos);
 
