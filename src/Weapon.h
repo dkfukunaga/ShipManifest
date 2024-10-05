@@ -1,166 +1,119 @@
 
+#ifndef SHIP_WEAPON_H
+#define SHIP_WEAPON_H
 
-
-
-#ifndef WEAPON_H
-#define WEAPON_H
-
-#include "ShipTypes.h"
+#include "..\DataFile\src\DataFile.h"
+#include "Headers.h"
+#include "Serializable.h"
+#include "Subsystem.h"
 #include <string>
+#include <cstdint>
 
+enum class WeaponType {
+    none,
+    mass_driver,
+    beam,
+    missile,
+};
 
-// Weapon base abstract class
-class Weapon {
+enum class WeaponSize : uint8_t {
+    light = 0,
+    medium,
+    heavy,
+};
+
+enum class DamageType : uint8_t {
+    kinetic,
+    energy,
+    explosive,
+};
+
+struct Weapon : Subsystem {
+    WeaponType          type            = WeaponType::none;
+    WeaponSize          size_class      = WeaponSize::light;
+    DamageType          damage_type     = DamageType::kinetic;
+    int32_t             damage          = 0;
+    int32_t             range           = 0;
+
+    Weapon() { };
+    Weapon(WeaponType new_type, std::string new_name, uint8_t new_tier, uint16_t new_mass,
+           uint16_t new_dur, int32_t new_power, WeaponSize new_size, DamageType new_dmg_type,
+           int32_t new_damage, int32_t new_range):
+        Subsystem(SubsystemType::weapon, new_name, new_tier, new_mass, new_dur, new_power),
+        type(new_type),
+        size_class(new_size),
+        damage_type(new_dmg_type),
+        damage(new_damage),
+        range(new_range) { };
+    
+    recsize_t           getSize() const;
 protected:
-    std::string     m_name;
-    uchar           m_tier;
-    WeaponSize      m_size;
-    int             m_base_damage;
-    int             m_fire_rate;
-    int             m_range;
-    int             m_power;
-
-public:
-    // getters
-    std::string     getName() const;
-    uchar           getTier() const;
-    WeaponSize      getSize() const;
-    int             getBaseDamage() const;
-    int             getFireRate() const;
-    int             getRange() const;
-    int             getPower() const;
-
-    // setters
-    void            setName(std::string name);
-    void            setTier(uchar tier);
-    void            setSize(WeaponSize size);
-    void            setBaseDamage(int base_dmg);
-    void            setFireRate(int fire_rate);
-    void            setRange(int range);
-    void            setPower(int power);
-
-    // operators
-    bool            operator==(const Weapon &w) const;
-    bool            operator!=(const Weapon &w) const;
-
-    // virtual
-    virtual int     getDamage(double dist) = 0;
-
-    // constructor
-    Weapon(std::string name = "NONE", uchar tier = 'C', WeaponSize size = WeaponSize::small,
-        int base_dmg = 0, int fire_rate = 0, int range = 0, int power = 0);
+    void                serializeData(DataFile &file) const;
+    void                deserializeData(DataFile &file);
 };
 
+struct MassDriver : Weapon {
+    uint32_t            velocity        = 0;
+    uint32_t            ammo_capacity   = 0;
 
-// *************** WEAPON CLASSES ***************
+    MassDriver() { };
+    MassDriver(std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur, int32_t new_power,
+               WeaponSize new_size, DamageType new_dmg_type, int32_t new_damage, int32_t new_range,
+               uint32_t new_vel, uint32_t new_ammo_cap):
+        Weapon(WeaponType::mass_driver, new_name, new_tier, new_mass, new_dur, new_power, new_size,
+               new_dmg_type, new_damage, new_range),
+        velocity(new_vel),
+        ammo_capacity(new_ammo_cap) { };
+    
+    recsize_t           getSize() const;
 
-
-class EmptyWeaponSLot : public Weapon {
-    public:
-    // placeholders for empty weapon slots
-    static EmptyWeaponSLot *no_missile;
-    static EmptyWeaponSLot *no_heavy;
-    static EmptyWeaponSLot *no_medium;
-    static EmptyWeaponSLot *no_light;
-
-    // virutal override
-    int             getDamage(double dist) override;
-
-    // constructor
-    EmptyWeaponSLot(std::string name = "NONE", uchar tier = 'C',
-        WeaponSize size = WeaponSize::small, int base_dmg = 0, int fire_rate = 0,
-        int range = 0, int power = 0);
+protected:
+    void                serializeData(DataFile &file) const;
+    void                deserializeData(DataFile &file);
 };
 
+struct Beam : Weapon {
+    uint8_t             shield_penetration  = 0;
+    uint8_t             range_penalty       = 0;
+    uint16_t            capacitor_charge    = 0;
 
-class Beam : public Weapon {
-private:
-    // member variable
-    int             m_eff_rng;
+    Beam() { };
+    Beam(std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur, int32_t new_power,
+            WeaponSize new_size, DamageType new_dmg_type, int32_t new_damage, int32_t new_range,
+            uint8_t new_shield_penetration, uint8_t new_range_pen, uint16_t new_cap_charge):
+        Weapon(WeaponType::beam, new_name, new_tier, new_mass, new_dur, new_power, new_size,
+               new_dmg_type, new_damage, new_range),
+        shield_penetration(new_shield_penetration),
+        range_penalty(new_range_pen),
+        capacitor_charge(new_cap_charge) { };
+    
+    recsize_t           getSize() const;
 
-    // helper function
-    int             calcDamage(double dist);
-
-public:
-    // getters
-    int             getEffRange() const;
-
-    // setters
-    void            setEffRange(int eff_rng);
-
-    // operators
-    bool            operator==(const Beam &b) const;
-    bool            operator!=(const Beam &b) const;
-
-    // virutal override
-    int             getDamage(double dist) override;
-
-    // constructors
-    Beam(std::string name = "NONE", uchar tier = 'C', WeaponSize size = WeaponSize::small,
-        int base_dmg = 0, int fire_rate = 0, int range = 0, int power = 0,
-        int eff_range = 0);
-    Beam(Beam &other);
+protected:
+    void                serializeData(DataFile &file) const;
+    void                deserializeData(DataFile &file);
 };
 
+struct Missile : Weapon {
+    uint32_t            velocity        = 0;
+    uint16_t            evasion         = 0;
+    uint16_t            tracking        = 0;
 
-class Kinetic : public Weapon {
-private:
-    int             m_max_ammo;
-    int             m_curr_ammo;
+    Missile() { };
+    Missile(std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur, int32_t new_power,
+            WeaponSize new_size, DamageType new_dmg_type, int32_t new_damage, int32_t new_range,
+            uint32_t new_vel, uint16_t new_evation, uint16_t new_tracking):
+        Weapon(WeaponType::missile, new_name, new_tier, new_mass, new_dur, new_power, new_size,
+               new_dmg_type, new_damage, new_range),
+        velocity(new_vel),
+        evasion(new_evation),
+        tracking(new_tracking) { };
+    
+    recsize_t           getSize() const;
 
-public:
-    // getters
-    int             getMaxAmmo() const;
-    int             getCurrAmmo() const;
-
-    // setters
-    void            setMaxAmmo(int max_ammo);
-    void            setCurrAmmo(int curr_ammo);
-
-    // operators
-    bool            operator==(const Kinetic &k) const;
-    bool            operator!=(const Kinetic &k) const;
-
-    // virtual override
-    int             getDamage(double dist) override;
-
-    // constructors
-    Kinetic(std::string name = "NONE", uchar tier = 'C', WeaponSize size = WeaponSize::small,
-        int base_dmg = 0, int fire_rate = 0, int range = 0, int power = 0,
-        int max_ammo = 0, int curr_ammo = 0);
-    Kinetic(Kinetic &other);
+protected:
+    void                serializeData(DataFile &file) const;
+    void                deserializeData(DataFile &file);
 };
-
-class Missile : public Weapon {
-private:
-    int             m_speed;
-    float           m_tracking;
-    int             m_hull;
-
-public:
-    // getters
-    int             getSpeed() const;
-    float           getTracking() const;
-    int             getHull() const;
-
-    // setters
-    void            setSpeed(int speed);
-    void            setTracking(float tracking);
-    void            setHull(int hull);
-
-    // operators
-    bool            operator==(const Missile &m) const;
-    bool            operator!=(const Missile &m) const;
-
-    // virtual override
-    int             getDamage(double dist) override;
-
-    // constructors
-    Missile(std::string name = "NONE", uchar tier = 'C', WeaponSize size = WeaponSize::small,
-        int base_dmg = 0, int fire_rate = 0, int range = 0, int power = 0,
-        int speed = 0, float tracking = 0.0, int hull = 0);
-    Missile(Missile &other);
-};
-
 
 #endif
