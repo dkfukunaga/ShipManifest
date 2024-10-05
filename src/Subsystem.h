@@ -10,18 +10,18 @@
 #include <cstdint>
 
 struct Subsystem : public Serializable {
-    std::string         name;
-    uint8_t             tier;
-    uint16_t            mass;
-    uint16_t            durability;
-    int32_t             power;
+    std::string         name            = "NONAME";
+    uint8_t             tier            = 0;
+    uint16_t            mass            = 0;
+    uint16_t            durability      = 0;
+    int32_t             power           = 0;
 
-    Subsystem(std::string new_name = "NONAME", uint8_t new_tier = 0, uint16_t new_mass = 0,
-              uint16_t new_durability = 0, int32_t new_power = 0):
+    Subsystem() { };
+    Subsystem(std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur, int32_t new_power):
         name(new_name),
         tier(new_tier),
         mass(new_mass),
-        durability(new_durability),
+        durability(new_dur),
         power(new_power) { };
     Subsystem(const Subsystem &) = default;             // default copy constructor
     Subsystem(Subsystem &&) noexcept = default;         // default move construtor
@@ -36,12 +36,12 @@ protected:
 };
 
 struct Reactor : Subsystem {
-    uint16_t            fuel_use;
+    uint16_t            fuel_use        = 0;
 
-    Reactor(std::string new_name = "NONAME", uint8_t new_tier = 0, uint16_t new_mass = 0,
-            uint16_t new_durability = 0, int32_t new_power = 0,
-            uint16_t new_fuel_use = 0):
-        Subsystem(new_name, new_tier, new_mass, new_durability, new_power),
+    Reactor() { };
+    Reactor(std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur, int32_t new_power,
+            uint16_t new_fuel_use):
+        Subsystem(new_name, new_tier, new_mass, new_dur, new_power),
         fuel_use(new_fuel_use) { };
 
     recsize_t           getSize() const;
@@ -53,13 +53,13 @@ protected:
 
 struct Thrusters : Subsystem {
 
-    uint16_t            speed;
-    uint16_t            maneuver;
+    uint16_t            speed           = 0;
+    uint16_t            maneuver        = 0;
 
-    Thrusters(std::string new_name = "NONAME", uint8_t new_tier = 0, uint16_t new_mass = 0,
-            uint16_t new_durability = 0, int32_t new_power = 0,
-              uint16_t new_speed = 0, uint16_t new_maneuver = 0):
-        Subsystem(new_name, new_tier, new_mass, new_durability, new_power),
+    Thrusters() { }
+    Thrusters(std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur, int32_t new_power,
+              uint16_t new_speed, uint16_t new_maneuver):
+        Subsystem(new_name, new_tier, new_mass, new_dur, new_power),
         speed(new_speed),
         maneuver(new_maneuver) { };
     
@@ -72,12 +72,12 @@ protected:
 
 struct FTLdrive : Subsystem {
 
-    uint8_t             ftl_rating;
+    uint8_t             ftl_rating      = 0;
 
-    FTLdrive(std::string new_name = "NONAME", uint8_t new_tier = 0, uint16_t new_mass = 0,
-            uint16_t new_durability = 0, int32_t new_power = 0,
-             uint8_t new_ftl_rating = 0):
-        Subsystem(new_name, new_tier, new_mass, new_durability, new_power),
+    FTLdrive() { };
+    FTLdrive(std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur, int32_t new_power,
+             uint8_t new_ftl_rating):
+        Subsystem(new_name, new_tier, new_mass, new_dur, new_power),
         ftl_rating(new_ftl_rating) { };
     
     recsize_t           getSize() const;
@@ -89,13 +89,13 @@ protected:
 
 struct Computer : Subsystem {
 
-    uint16_t            processing_power;
-    uint16_t            memory;
+    uint16_t            processing_power    = 0;
+    uint16_t            memory              = 0;
 
-    Computer(std::string new_name = "NONAME", uint8_t new_tier = 0, uint16_t new_mass = 0,
-            uint16_t new_durability = 0, int32_t new_power = 0,
-             uint16_t new_processing_power = 0, uint16_t new_memory = 0):
-        Subsystem(new_name, new_tier, new_mass, new_durability, new_power),
+    Computer() { };
+    Computer(std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur, int32_t new_power,
+             uint16_t new_processing_power, uint16_t new_memory):
+        Subsystem(new_name, new_tier, new_mass, new_dur, new_power),
         processing_power(new_processing_power),
         memory(new_memory) { };
 
@@ -108,13 +108,13 @@ protected:
 
 struct Armor : Subsystem {
 
-    uint8_t             armor_rating;
-    uint8_t             hardness;
+    uint8_t             armor_rating    = 0;
+    uint8_t             hardness        = 0;
 
-    Armor(std::string new_name = "NONAME", uint8_t new_tier = 0, uint16_t new_mass = 0,
-            uint16_t new_durability = 0, int32_t new_power = 0,
-          uint8_t new_armor_rating = 0, uint8_t new_hardness = 0):
-        Subsystem(new_name, new_tier, new_mass, new_durability, new_power),
+    Armor() { };
+    Armor(std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur, int32_t new_power,
+          uint8_t new_armor_rating, uint8_t new_hardness):
+        Subsystem(new_name, new_tier, new_mass, new_dur, new_power),
         armor_rating(new_armor_rating),
         hardness(new_hardness) { };
 
@@ -127,14 +127,14 @@ protected:
 
 struct Shields : Subsystem {
 
-    uint8_t             damage_reduction;
-    uint16_t            max_strength;
-    uint16_t            recharge_rate;
+    uint8_t             damage_reduction    = 0;
+    uint16_t            max_strength        = 0;
+    uint16_t            recharge_rate       = 0;
 
-    Shields(std::string new_name = "NONAME", uint8_t new_tier = 0, uint16_t new_mass = 0,
-            uint16_t new_durability = 0, int32_t new_power = 0,
-            uint8_t new_damage_reduction = 0, uint16_t new_max_strength = 0, uint16_t new_recharge_rate = 0):
-        Subsystem(new_name, new_tier, new_mass, new_durability, new_power),
+    Shields() { };
+    Shields(std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur, int32_t new_power,
+            uint8_t new_damage_reduction, uint16_t new_max_strength, uint16_t new_recharge_rate):
+        Subsystem(new_name, new_tier, new_mass, new_dur, new_power),
         damage_reduction(new_damage_reduction),
         max_strength(new_max_strength),
         recharge_rate(new_recharge_rate) { };
