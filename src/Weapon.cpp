@@ -25,17 +25,17 @@ void        Weapon::deserializeData(DataFile &file) {
 
 
 
-recsize_t   Kinetic::getSize() const {
+recsize_t   MassDriver::getSize() const {
     return Weapon::getSize() + sizeof(velocity) + sizeof(ammo_capacity);
 }
 
-void        Kinetic::serializeData(DataFile &file) const {
+void        MassDriver::serializeData(DataFile &file) const {
     Weapon::serializeData(file);
     file.write(&velocity);
     file.write(&ammo_capacity);
 }
 
-void        Kinetic::deserializeData(DataFile &file) {
+void        MassDriver::deserializeData(DataFile &file) {
     Weapon::deserializeData(file);
     file.read(&velocity);
     file.read(&ammo_capacity);

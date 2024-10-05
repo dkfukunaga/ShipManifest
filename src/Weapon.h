@@ -9,28 +9,38 @@
 #include <string>
 #include <cstdint>
 
+enum class WeaponType {
+    none,
+    mass_driver,
+    beam,
+    missile,
+};
+
 enum class WeaponSize : uint8_t {
     light = 0,
     medium,
     heavy,
 };
 
-enum class DamageType :uint8_t {
+enum class DamageType : uint8_t {
     kinetic,
     energy,
     explosive,
 };
 
 struct Weapon : Subsystem {
-    WeaponSize     size_class      = WeaponSize::light;
+    WeaponType          type            = WeaponType::none;
+    WeaponSize          size_class      = WeaponSize::light;
     DamageType          damage_type     = DamageType::kinetic;
     int32_t             damage          = 0;
     int32_t             range           = 0;
 
     Weapon() { };
-    Weapon(std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur, int32_t new_power,
-            WeaponSize new_size, DamageType new_dmg_type, int32_t new_damage, int32_t new_range):
-        Subsystem(new_name, new_tier, new_mass, new_dur, new_power),
+    Weapon(WeaponType new_type, std::string new_name, uint8_t new_tier, uint16_t new_mass,
+           uint16_t new_dur, int32_t new_power, WeaponSize new_size, DamageType new_dmg_type,
+           int32_t new_damage, int32_t new_range):
+        Subsystem(SubsystemType::weapon, new_name, new_tier, new_mass, new_dur, new_power),
+        type(new_type),
         size_class(new_size),
         damage_type(new_dmg_type),
         damage(new_damage),
@@ -42,15 +52,16 @@ protected:
     void                deserializeData(DataFile &file);
 };
 
-struct Kinetic : Weapon {
+struct MassDriver : Weapon {
     uint32_t            velocity        = 0;
     uint32_t            ammo_capacity   = 0;
 
-    Kinetic() { };
-    Kinetic(std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur, int32_t new_power,
-            WeaponSize new_size, DamageType new_dmg_type, int32_t new_damage, int32_t new_range,
-            uint32_t new_vel, uint32_t new_ammo_cap):
-        Weapon(new_name, new_tier, new_mass, new_dur, new_power, new_size, new_dmg_type, new_damage, new_range),
+    MassDriver() { };
+    MassDriver(std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur, int32_t new_power,
+               WeaponSize new_size, DamageType new_dmg_type, int32_t new_damage, int32_t new_range,
+               uint32_t new_vel, uint32_t new_ammo_cap):
+        Weapon(WeaponType::mass_driver, new_name, new_tier, new_mass, new_dur, new_power, new_size,
+               new_dmg_type, new_damage, new_range),
         velocity(new_vel),
         ammo_capacity(new_ammo_cap) { };
     
@@ -70,7 +81,8 @@ struct Beam : Weapon {
     Beam(std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur, int32_t new_power,
             WeaponSize new_size, DamageType new_dmg_type, int32_t new_damage, int32_t new_range,
             uint8_t new_shield_penetration, uint8_t new_range_pen, uint16_t new_cap_charge):
-        Weapon(new_name, new_tier, new_mass, new_dur, new_power, new_size, new_dmg_type, new_damage, new_range),
+        Weapon(WeaponType::beam, new_name, new_tier, new_mass, new_dur, new_power, new_size,
+               new_dmg_type, new_damage, new_range),
         shield_penetration(new_shield_penetration),
         range_penalty(new_range_pen),
         capacitor_charge(new_cap_charge) { };
@@ -91,7 +103,8 @@ struct Missile : Weapon {
     Missile(std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur, int32_t new_power,
             WeaponSize new_size, DamageType new_dmg_type, int32_t new_damage, int32_t new_range,
             uint32_t new_vel, uint16_t new_evation, uint16_t new_tracking):
-        Weapon(new_name, new_tier, new_mass, new_dur, new_power, new_size, new_dmg_type, new_damage, new_range),
+        Weapon(WeaponType::missile, new_name, new_tier, new_mass, new_dur, new_power, new_size,
+               new_dmg_type, new_damage, new_range),
         velocity(new_vel),
         evasion(new_evation),
         tracking(new_tracking) { };
