@@ -87,11 +87,11 @@ TEST_CASE("Serialization test") {
 
     SUBCASE("Weapon test") {
         Weapon *test_weapons[3];
-        test_weapons[0] = new Kinetic("Kinetic 1", 1, 5, 25, 5, WeaponSizeClass::light, DamageType::kinetic,
+        test_weapons[0] = new Kinetic("Kinetic 1", 1, 5, 25, 5, WeaponSize::light, DamageType::kinetic,
                                       8, 100, 100, 500);
-        test_weapons[1] = new Beam("Beam 1", 2, 8, 30, 20, WeaponSizeClass::light, DamageType::energy,
+        test_weapons[1] = new Beam("Beam 1", 2, 8, 30, 20, WeaponSize::light, DamageType::energy,
                                    12, 100, 10, 5, 55);
-        test_weapons[2] = new Missile("Missile 1", 5, 15, 20, 5, WeaponSizeClass::heavy, DamageType::explosive,
+        test_weapons[2] = new Missile("Missile 1", 5, 15, 20, 5, WeaponSize::heavy, DamageType::explosive,
                                       350, 100, 100, 30, 30);
         
         offset_t offsets[3];
@@ -209,7 +209,7 @@ TEST_CASE("Serialization test") {
         }
     }
 
-    // WeaponSizeClass     size_class      = WeaponSizeClass::light;
+    // WeaponSize     size_class      = WeaponSize::light;
     // DamageType          damage_type     = DamageType::kinetic;
     // int32_t             damage          = 0;
     // int32_t             range           = 0;
