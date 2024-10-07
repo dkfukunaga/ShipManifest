@@ -32,7 +32,7 @@ struct FileSig {
 
 // Ship Registry file signature
 // 0C A7 CA FE 53 48 50 52 45 47 (....SHPREG)
-constexpr FileSig FileSig::ship_registry = {0x0C, 0xA7, 0xCA, 0xFE, 'S', 'H', 'P', 'R', 'E', 'G'};
+constexpr FileSig FileSig::ship_registry = {{0x0C, 0xA7, 0xCA, 0xFE, 'S', 'H', 'P', 'R', 'E', 'G'}};
 
 // 4 char file type id
 struct FileType {
@@ -45,13 +45,13 @@ struct FileType {
 };
 
 // Ships database file "SHIP"
-constexpr FileType FileType::ships              = {'S', 'H', 'I', 'P'};
+constexpr FileType FileType::ships              = {{'S', 'H', 'I', 'P'}};
 // Ship Classes database file "SHLS"
-constexpr FileType FileType::ship_classes       = {'S', 'C', 'L', 'S'};
+constexpr FileType FileType::ship_classes       = {{'S', 'C', 'L', 'S'}};
 // Ship Components database file "SCMP"
-constexpr FileType FileType::ship_components    = {'S', 'C', 'M', 'P'};
+constexpr FileType FileType::ship_components    = {{'S', 'C', 'M', 'P'}};
 // Game Characters database file "GCHR"
-constexpr FileType FileType::game_characters    = {'G', 'C', 'H', 'R'};
+constexpr FileType FileType::game_characters    = {{'G', 'C', 'H', 'R'}};
 
 // 4 char section type id
 struct SectionType {
@@ -63,11 +63,11 @@ struct SectionType {
 };
 
 // Data section ":DAT"
-constexpr SectionType SectionType::data     = {':', 'D', 'A', 'T'};
+constexpr SectionType SectionType::data     = {{':', 'D', 'A', 'T'}};
 // Index section ":IDX"
-constexpr SectionType SectionType::index    = {':', 'I', 'D', 'X'};
+constexpr SectionType SectionType::index    = {{':', 'I', 'D', 'X'}};
 // End Of File ":EOF"
-constexpr SectionType SectionType::eof      = {':', 'E', 'O', 'F'};
+constexpr SectionType SectionType::eof      = {{':', 'E', 'O', 'F'}};
 
 // 2 byte data type id
 struct DataType {
@@ -81,15 +81,15 @@ struct DataType {
 };
 
 // Ship data "SP"
-constexpr DataType DataType::ship       = {'S', 'P'};
+constexpr DataType DataType::ship       = {{'S', 'P'}};
 // ShipClass data "CL"
-constexpr DataType DataType::ship_class = {'C', 'L'};
+constexpr DataType DataType::ship_class = {{'C', 'L'}};
 // Subsystem data "SB"
-constexpr DataType DataType::subsystem  = {'S', 'B'};
+constexpr DataType DataType::subsystem  = {{'S', 'B'}};
 // Weapon data "WP"
-constexpr DataType DataType::weapon     = {'W', 'P'};
+constexpr DataType DataType::weapon     = {{'W', 'P'}};
 // Officer data "OF"
-constexpr DataType DataType::officer    = {'O', 'F'};
+constexpr DataType DataType::officer    = {{'O', 'F'}};
 
 // File Header
 struct FileHeader {
