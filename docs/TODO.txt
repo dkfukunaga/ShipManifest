@@ -1,23 +1,22 @@
 
 DATAFILE:
-- implement DataFile assignment operator
+? implement DataFile assignment operator
 
 DATABASE:
-- implement serializable interface? (abstract class)
-    - objects responsible for serializing their own DataRecord headers
-    - Database responsible for writing and maintaining
-        - FileHeader
-        - SectionHeader
-        - TableHeader
-        - Index
-        - tracks size and count as records are written
+x implement serializable interface? (abstract class)
+    x objects responsible for serializing their own DataRecord headers
+- Database responsible for writing and maintaining
+    - FileHeader
+    - SectionHeader
+    - TableHeader
+    - Index
+    - tracks size and count and offset as records are written
 
-COMPONENTS:
-- implement data classes
-    - components
-        - subsystems
-        - weapons
-    - officers
-    - ship classes
-    - ships
+DATA STRUCTS:
+x components
+    x subsystems
+    x weapons
+- officers
+- ship classes
+- ships
 
