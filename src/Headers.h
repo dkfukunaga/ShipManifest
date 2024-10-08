@@ -3,6 +3,7 @@
 #ifndef DATAFILE_HEADERS_H
 #define DATAFILE_HEADERS_H
 
+#include "DataFile.h"
 #include <cstdint>
 
 
@@ -40,8 +41,9 @@ struct FileType {
 
     static const FileType ships;
     static const FileType ship_classes;
-    static const FileType ship_components;
-    static const FileType game_characters;
+    static const FileType subsystems;
+    static const FileType weapons;
+    static const FileType officers;
 };
 
 // Ships database file "SHIP"
@@ -49,9 +51,11 @@ constexpr FileType FileType::ships              = {{'S', 'H', 'I', 'P'}};
 // Ship Classes database file "SHLS"
 constexpr FileType FileType::ship_classes       = {{'S', 'C', 'L', 'S'}};
 // Ship Components database file "SCMP"
-constexpr FileType FileType::ship_components    = {{'S', 'C', 'M', 'P'}};
+constexpr FileType FileType::subsystems         = {{'S', 'U', 'B', 'S'}};
+// Ship Components database file "SCMP"
+constexpr FileType FileType::weapons            = {{'W', 'E', 'A', 'P'}};
 // Game Characters database file "GCHR"
-constexpr FileType FileType::game_characters    = {{'G', 'C', 'H', 'R'}};
+constexpr FileType FileType::officers           = {{'O', 'F', 'C', 'R'}};
 
 // 4 char section type id
 struct SectionType {
@@ -93,18 +97,30 @@ constexpr DataType DataType::officer    = {{'O', 'F'}};
 
 // File Header
 struct FileHeader {
-    FileSig         sig = FileSig::ship_registry;   // file signature
+    FileSig         sig;            // file signature
     FileFlags       flags;          // file status flags
     uint8_t         version;        // file version
     FileType        type;           // file type
     length_t        length;         // file size in bytes
     offset_t        index_offset;   // offset of index section
+
+    offset_t        serialize(DataFile &file);
+    offset_t        serialize(DataFile &file, int64_t pos);
+    
+    void            deserialize(DataFile &file);
+    void            deserialize(DataFile &file, int64_t pos);
 };
 
 // Section header
 struct SectionHeader {
     length_t        length;         // size of section in bytes, excluding header
     SectionType     type;           // type of section
+
+    offset_t        serialize(DataFile &file);
+    offset_t        serialize(DataFile &file, int64_t pos);
+    
+    void            deserialize(DataFile &file);
+    void            deserialize(DataFile &file, int64_t pos);
 };
 
 // Table header
@@ -112,6 +128,12 @@ struct TableHeader {
     length_t        length;         // size of table in bytes, excluding header
     DataType        type;           // type of data in table
     count_t         count;          // count of records in table
+
+    offset_t        serialize(DataFile &file);
+    offset_t        serialize(DataFile &file, int64_t pos);
+    
+    void            deserialize(DataFile &file);
+    void            deserialize(DataFile &file, int64_t pos);
 };
 
 // header for Data record
@@ -119,12 +141,24 @@ struct DataRecordHeader {
     index_t         index;          // 0 indicates deleted record
     recsize_t       size;           // size of record in bytes, excluding header
     offset_t        redirect;       // 0 indicates no redirect
+
+    offset_t        serialize(DataFile &file);
+    offset_t        serialize(DataFile &file, int64_t pos);
+    
+    void            deserialize(DataFile &file);
+    void            deserialize(DataFile &file, int64_t pos);
 };
 
 // Index record
 struct IndexRecord {
     index_t         index;          // data record index
     offset_t        offset;         // data record offset
+
+    offset_t        serialize(DataFile &file);
+    offset_t        serialize(DataFile &file, int64_t pos);
+    
+    void            deserialize(DataFile &file);
+    void            deserialize(DataFile &file, int64_t pos);
 };
 
 
