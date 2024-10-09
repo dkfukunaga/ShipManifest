@@ -3,15 +3,16 @@
 #ifndef DATAFILE_HEADERS_H
 #define DATAFILE_HEADERS_H
 
-#include "DataFile.h"
+#include "..\DataFile\src\DataFile.h"
 #include <cstdint>
 
 
 typedef uint16_t    index_t;        // data record index
 typedef uint16_t    recsize_t;      // data record size in bytes
 typedef uint16_t    count_t;        // data record count
-typedef uint32_t    length_t;       // file or table size in bytes
 typedef uint32_t    offset_t;       // data record offset from file start
+typedef uint32_t    secsize_t;      // section or table size in bytes
+typedef uint64_t    filesize_t;     // file size in bytes
 
 
 // File status flags
@@ -101,7 +102,7 @@ struct FileHeader {
     FileFlags       flags;          // file status flags
     uint8_t         version;        // file version
     FileType        type;           // file type
-    length_t        length;         // file size in bytes
+    filesize_t      size;           // file size in bytes
     offset_t        index_offset;   // offset of index section
 
     offset_t        serialize(DataFile &file);
@@ -113,7 +114,7 @@ struct FileHeader {
 
 // Section header
 struct SectionHeader {
-    length_t        length;         // size of section in bytes, excluding header
+    secsize_t       size;         // size of section in bytes, excluding header
     SectionType     type;           // type of section
 
     offset_t        serialize(DataFile &file);
@@ -125,7 +126,7 @@ struct SectionHeader {
 
 // Table header
 struct TableHeader {
-    length_t        length;         // size of table in bytes, excluding header
+    secsize_t       size;         // size of table in bytes, excluding header
     DataType        type;           // type of data in table
     count_t         count;          // count of records in table
 

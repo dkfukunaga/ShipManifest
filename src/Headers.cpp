@@ -15,7 +15,7 @@ offset_t        FileHeader::serialize(DataFile &file) {
     file.write(&flags);
     file.write(&version);
     file.write(&type);
-    file.write(&length);
+    file.write(&size);
     file.write(&index_offset);
     
     return record_offset;
@@ -40,7 +40,7 @@ void            FileHeader::deserialize(DataFile &file) {
     file.read(&flags);
     file.read(&version);
     file.read(&type);
-    file.read(&length);
+    file.read(&size);
     file.read(&index_offset);
 }
 
@@ -64,7 +64,7 @@ offset_t        SectionHeader::serialize(DataFile &file) {
 
     offset_t record_offset = file.getWritePos();
 
-    file.write(&length);
+    file.write(&size);
     file.write(&type);
     
     return record_offset;
@@ -85,7 +85,7 @@ void            SectionHeader::deserialize(DataFile &file) {
         return;
     }
 
-    file.read(&length);
+    file.read(&size);
     file.read(&type);
 }
 
@@ -109,7 +109,7 @@ offset_t        TableHeader::serialize(DataFile &file) {
 
     offset_t record_offset = file.getWritePos();
 
-    file.write(&length);
+    file.write(&size);
     file.write(&type);
     file.write(&count);
     
@@ -131,7 +131,7 @@ void            TableHeader::deserialize(DataFile &file) {
         return;
     }
 
-    file.read(&length);
+    file.read(&size);
     file.read(&type);
     file.read(&count);
 }
