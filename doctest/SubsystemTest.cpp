@@ -1,10 +1,11 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
+#include "..\DataFile\src\DataFile.h"
+#include "..\src\Headers.h"
+#include "..\src\DataRecord.h"
+#include "..\src\Component.h"
 #include "..\src\Subsystem.h"
 #include "..\src\Weapon.h"
-#include "..\src\Serializable.h"
-#include "..\src\Headers.h"
-#include "..\DataFile\src\DataFile.h"
 #include <string>
 #include <fstream>
 

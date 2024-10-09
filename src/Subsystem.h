@@ -5,7 +5,8 @@
 
 #include "..\DataFile\src\DataFile.h"
 #include "Headers.h"
-#include "Serializable.h"
+#include "DataRecord.h"
+#include "Component.h"
 #include <string>
 #include <cstdint>
 
@@ -17,44 +18,30 @@ enum class SubsystemType {
     computer,
     armor,
     shields,
-    weapon,
 };
 
-struct Subsystem : public Serializable {
-    SubsystemType       type            = SubsystemType::none;
-    std::string         name            = "NONAME";
-    uint8_t             tier            = 0;
-    uint16_t            mass            = 0;
-    uint16_t            durability      = 0;
-    int32_t             power           = 0;
 
-    Subsystem() { };
+struct Subsystem : Component {
+    SubsystemType       type            = SubsystemType::none;
+
+    Subsystem() = delete;
+    Subsystem(SubsystemType new_type):
+        Component(RecordType::subsystem),
+        type(new_type) { };
     Subsystem(SubsystemType new_type, std::string new_name, uint8_t new_tier,
               uint16_t new_mass, uint16_t new_dur, int32_t new_power):
-        type(new_type),
-        name(new_name),
-        tier(new_tier),
-        mass(new_mass),
-        durability(new_dur),
-        power(new_power) { };
+        Component(RecordType::subsystem, new_name, new_tier, new_mass, new_dur, new_power),
+        type(new_type) { };
     Subsystem(const Subsystem &) = default;             // default copy constructor
     Subsystem(Subsystem &&) noexcept = default;         // default move construtor
     virtual ~Subsystem() = default;                     // default virtual destructor
-
-    recsize_t           getSize() const;
-protected:
-    void                writeHeader(DataFile &file, index_t index, recsize_t size, offset_t offset) const;
-    index_t             readHeader(DataFile &file);
-    void                serializeData(DataFile &file) const;
-    void                deserializeData(DataFile &file);
 };
 
 struct Reactor : Subsystem {
     uint16_t            fuel_use        = 0;
 
-    Reactor() {
-        type = SubsystemType::reactor;
-    };
+    Reactor():
+        Subsystem(SubsystemType::reactor) { };
     Reactor(std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur, int32_t new_power,
             uint16_t new_fuel_use):
         Subsystem(SubsystemType::reactor, new_name, new_tier, new_mass, new_dur, new_power),
@@ -72,9 +59,8 @@ struct Thrusters : Subsystem {
     uint16_t            speed           = 0;
     uint16_t            maneuver        = 0;
 
-    Thrusters() {
-        type = SubsystemType::thrusters;
-    }
+    Thrusters():
+        Subsystem(SubsystemType::thrusters) { };
     Thrusters(std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur, int32_t new_power,
               uint16_t new_speed, uint16_t new_maneuver):
         Subsystem(SubsystemType::thrusters, new_name, new_tier, new_mass, new_dur, new_power),
@@ -92,9 +78,8 @@ struct FTLdrive : Subsystem {
 
     uint8_t             ftl_rating      = 0;
 
-    FTLdrive() {
-        type = SubsystemType::ftldrive;
-    };
+    FTLdrive():
+        Subsystem(SubsystemType::ftldrive) { };
     FTLdrive(std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur, int32_t new_power,
              uint8_t new_ftl_rating):
         Subsystem(SubsystemType::ftldrive, new_name, new_tier, new_mass, new_dur, new_power),
@@ -112,9 +97,8 @@ struct Computer : Subsystem {
     uint16_t            processing_power    = 0;
     uint16_t            memory              = 0;
 
-    Computer() {
-        type = SubsystemType::computer;
-    };
+    Computer():
+        Subsystem(SubsystemType::computer) { };
     Computer(std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur, int32_t new_power,
              uint16_t new_processing_power, uint16_t new_memory):
         Subsystem(SubsystemType::computer, new_name, new_tier, new_mass, new_dur, new_power),
@@ -133,9 +117,8 @@ struct Armor : Subsystem {
     uint8_t             armor_rating    = 0;
     uint8_t             hardness        = 0;
 
-    Armor() {
-        type = SubsystemType::armor;
-    };
+    Armor():
+        Subsystem(SubsystemType::armor) { };
     Armor(std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur, int32_t new_power,
           uint8_t new_armor_rating, uint8_t new_hardness):
         Subsystem(SubsystemType::armor, new_name, new_tier, new_mass, new_dur, new_power),
@@ -155,9 +138,8 @@ struct Shields : Subsystem {
     uint16_t            max_strength        = 0;
     uint16_t            recharge_rate       = 0;
 
-    Shields() {
-        type = SubsystemType::shields;
-    };
+    Shields():
+        Subsystem(SubsystemType::shields) { };
     Shields(std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur, int32_t new_power,
             uint8_t new_damage_reduction, uint16_t new_max_strength, uint16_t new_recharge_rate):
         Subsystem(SubsystemType::shields, new_name, new_tier, new_mass, new_dur, new_power),

@@ -4,8 +4,8 @@
 
 #include "..\DataFile\src\DataFile.h"
 #include "Headers.h"
-#include "Serializable.h"
-#include "Subsystem.h"
+#include "DataRecord.h"
+#include "Component.h"
 #include <string>
 #include <cstdint>
 
@@ -28,18 +28,19 @@ enum class DamageType : uint8_t {
     explosive,
 };
 
-struct Weapon : Subsystem {
+struct Weapon : Component {
     WeaponType          type            = WeaponType::none;
     WeaponSize          size_class      = WeaponSize::light;
     DamageType          damage_type     = DamageType::kinetic;
     int32_t             damage          = 0;
     int32_t             range           = 0;
 
-    Weapon() { };
+    Weapon():
+        Component(RecordType::weapon) { };
     Weapon(WeaponType new_type, std::string new_name, uint8_t new_tier, uint16_t new_mass,
            uint16_t new_dur, int32_t new_power, WeaponSize new_size, DamageType new_dmg_type,
            int32_t new_damage, int32_t new_range):
-        Subsystem(SubsystemType::weapon, new_name, new_tier, new_mass, new_dur, new_power),
+        Component(RecordType::weapon, new_name, new_tier, new_mass, new_dur, new_power),
         type(new_type),
         size_class(new_size),
         damage_type(new_dmg_type),

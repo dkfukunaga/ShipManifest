@@ -2,11 +2,11 @@
 
 
 recsize_t   Weapon::getSize() const {
-    return Subsystem::getSize() + sizeof(size_class) + sizeof(damage_type) + sizeof(damage) + sizeof(range);
+    return Component::getSize() + sizeof(size_class) + sizeof(damage_type) + sizeof(damage) + sizeof(range);
 }
 
 void        Weapon::serializeData(DataFile &file) const {
-    Subsystem::serializeData(file);
+    Component::serializeData(file);
     file.write(&size_class);
     file.write(&damage_type);
     file.write(&damage);
@@ -14,7 +14,7 @@ void        Weapon::serializeData(DataFile &file) const {
 }
 
 void        Weapon::deserializeData(DataFile &file) {
-    Subsystem::deserializeData(file);
+    Component::deserializeData(file);
     file.read(&size_class);
     file.read(&damage_type);
     file.read(&damage);
