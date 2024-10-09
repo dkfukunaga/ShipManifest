@@ -1,15 +1,26 @@
 
 
-#ifndef SERIALIZABLE_DATA_H
-#define SERIALIZABLE_DATA_H
+#ifndef DATA_FILE_RECORD_H
+#define DATA_FILE_RECORD_H
 
 #include "..\DataFile\src\DataFile.h"
 #include "Headers.h"
 #include <cstdint>
 
-class Serializable {
-public:
-    virtual             ~Serializable() = default;
+enum class RecordType {
+    subsystem,
+    weapon,
+    officer,
+};
+
+struct DataRecord {
+    RecordType          type;
+
+    DataRecord() = default;
+    DataRecord(RecordType new_type):
+        type(new_type) { };
+
+    virtual             ~DataRecord() = default;
     virtual recsize_t   getSize() const = 0;
 
     offset_t            serialize(DataFile &file, index_t index, offset_t redirect) const;
@@ -24,7 +35,7 @@ protected:
 };
 
 
-inline offset_t Serializable::serialize(DataFile &file, index_t index, offset_t redirect) const {
+inline offset_t DataRecord::serialize(DataFile &file, index_t index, offset_t redirect) const {
     if (!file.isOpen()) {
         return 0;
     }
@@ -37,7 +48,7 @@ inline offset_t Serializable::serialize(DataFile &file, index_t index, offset_t 
     return record_offset;
 }
 
-inline offset_t Serializable::serialize(DataFile &file, index_t index, offset_t redirect, int64_t pos) const {
+inline offset_t DataRecord::serialize(DataFile &file, index_t index, offset_t redirect, int64_t pos) const {
     if (!file.isOpen()) {
         return 0;
     }
@@ -46,7 +57,7 @@ inline offset_t Serializable::serialize(DataFile &file, index_t index, offset_t 
     return serialize(file, index, redirect);
 }
 
-inline index_t Serializable::deserialize(DataFile &file) {
+inline index_t DataRecord::deserialize(DataFile &file) {
     if (!file.isOpen()) {
         return 0;
     }
@@ -57,7 +68,7 @@ inline index_t Serializable::deserialize(DataFile &file) {
     return index;
 }
 
-inline index_t Serializable::deserialize(DataFile &file, int64_t pos) {
+inline index_t DataRecord::deserialize(DataFile &file, int64_t pos) {
     if (!file.isOpen()) {
         return 0;
     }
