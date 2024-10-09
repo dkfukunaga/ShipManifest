@@ -3,18 +3,18 @@
 
 
 
-void Database::setFileSize(DataFile &file, filesize_t len) {
+void Database::setFileSize(DataFile &file, filesize_t new_size) {
     FileHeader header = readFileHeader(file);
 
-    header.size = len;
+    header.size = new_size;
 
     header.serialize(file, 0);
 }
 
-void Database::updateFileSize(DataFile &file, filesize_t len) {
+void Database::updateFileSize(DataFile &file, filesize_t size_adj) {
     FileHeader header = readFileHeader(file);
 
-    header.size += len;
+    header.size += size_adj;
 
     header.serialize(file, 0);
 }
