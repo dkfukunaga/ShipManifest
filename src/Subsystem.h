@@ -25,7 +25,7 @@ struct Subsystem : Component {
     SubsystemType       type            = SubsystemType::none;
 
     Subsystem() = delete;
-    Subsystem(SubsystemType new_type):
+    explicit Subsystem(SubsystemType new_type):
         Component(RecordType::subsystem),
         type(new_type) { };
     Subsystem(SubsystemType new_type, std::string new_name, uint8_t new_tier,

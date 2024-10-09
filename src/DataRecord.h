@@ -17,7 +17,7 @@ struct DataRecord {
     RecordType          type;
 
     DataRecord() = default;
-    DataRecord(RecordType new_type):
+    explicit DataRecord(RecordType new_type):
         type(new_type) { };
 
     virtual             ~DataRecord() = default;

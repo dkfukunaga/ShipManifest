@@ -18,7 +18,7 @@ struct Component : DataRecord {
     int32_t             power           = 0;
 
     Component() = delete;
-    Component(RecordType new_type):
+    explicit Component(RecordType new_type):
         DataRecord(new_type) { };
     Component(RecordType new_type, std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur, int32_t new_power):
         DataRecord(new_type),
