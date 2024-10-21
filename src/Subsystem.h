@@ -26,11 +26,11 @@ struct Subsystem : Component {
 
     Subsystem() = delete;
     explicit Subsystem(SubsystemType new_type):
-        Component(RecordType::subsystem),
+        Component(RecordType::subsystem, 0),
         type(new_type) { };
-    Subsystem(SubsystemType new_type, std::string new_name, uint8_t new_tier,
+    Subsystem(SubsystemType new_type, index_t new_index, std::string new_name, uint8_t new_tier,
               uint16_t new_mass, uint16_t new_dur, int32_t new_power):
-        Component(RecordType::subsystem, new_name, new_tier, new_mass, new_dur, new_power),
+        Component(RecordType::subsystem, new_index, new_name, new_tier, new_mass, new_dur, new_power),
         type(new_type) { };
     Subsystem(const Subsystem &) = default;             // default copy constructor
     Subsystem(Subsystem &&) noexcept = default;         // default move construtor
@@ -42,9 +42,9 @@ struct Reactor : Subsystem {
 
     Reactor():
         Subsystem(SubsystemType::reactor) { };
-    Reactor(std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur, int32_t new_power,
-            uint16_t new_fuel_use):
-        Subsystem(SubsystemType::reactor, new_name, new_tier, new_mass, new_dur, new_power),
+    Reactor(index_t new_index, std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur,
+            int32_t new_power, uint16_t new_fuel_use):
+        Subsystem(SubsystemType::reactor, new_index, new_name, new_tier, new_mass, new_dur, new_power),
         fuel_use(new_fuel_use) { };
 
     recsize_t           getSize() const;
@@ -61,9 +61,9 @@ struct Thrusters : Subsystem {
 
     Thrusters():
         Subsystem(SubsystemType::thrusters) { };
-    Thrusters(std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur, int32_t new_power,
-              uint16_t new_speed, uint16_t new_maneuver):
-        Subsystem(SubsystemType::thrusters, new_name, new_tier, new_mass, new_dur, new_power),
+    Thrusters(index_t new_index, std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur,
+              int32_t new_power, uint16_t new_speed, uint16_t new_maneuver):
+        Subsystem(SubsystemType::thrusters, new_index, new_name, new_tier, new_mass, new_dur, new_power),
         speed(new_speed),
         maneuver(new_maneuver) { };
     
@@ -80,9 +80,9 @@ struct FTLdrive : Subsystem {
 
     FTLdrive():
         Subsystem(SubsystemType::ftldrive) { };
-    FTLdrive(std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur, int32_t new_power,
-             uint8_t new_ftl_rating):
-        Subsystem(SubsystemType::ftldrive, new_name, new_tier, new_mass, new_dur, new_power),
+    FTLdrive(index_t new_index, std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur,
+             int32_t new_power, uint8_t new_ftl_rating):
+        Subsystem(SubsystemType::ftldrive, new_index, new_name, new_tier, new_mass, new_dur, new_power),
         ftl_rating(new_ftl_rating) { };
     
     recsize_t           getSize() const;
@@ -99,9 +99,9 @@ struct Computer : Subsystem {
 
     Computer():
         Subsystem(SubsystemType::computer) { };
-    Computer(std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur, int32_t new_power,
-             uint16_t new_processing_power, uint16_t new_memory):
-        Subsystem(SubsystemType::computer, new_name, new_tier, new_mass, new_dur, new_power),
+    Computer(index_t new_index, std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur,
+             int32_t new_power, uint16_t new_processing_power, uint16_t new_memory):
+        Subsystem(SubsystemType::computer, new_index, new_name, new_tier, new_mass, new_dur, new_power),
         processing_power(new_processing_power),
         memory(new_memory) { };
 
@@ -119,9 +119,9 @@ struct Armor : Subsystem {
 
     Armor():
         Subsystem(SubsystemType::armor) { };
-    Armor(std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur, int32_t new_power,
-          uint8_t new_armor_rating, uint8_t new_hardness):
-        Subsystem(SubsystemType::armor, new_name, new_tier, new_mass, new_dur, new_power),
+    Armor(index_t new_index, std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur,
+          int32_t new_power, uint8_t new_armor_rating, uint8_t new_hardness):
+        Subsystem(SubsystemType::armor, new_index, new_name, new_tier, new_mass, new_dur, new_power),
         armor_rating(new_armor_rating),
         hardness(new_hardness) { };
 
@@ -140,9 +140,9 @@ struct Shields : Subsystem {
 
     Shields():
         Subsystem(SubsystemType::shields) { };
-    Shields(std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur, int32_t new_power,
-            uint8_t new_damage_reduction, uint16_t new_max_strength, uint16_t new_recharge_rate):
-        Subsystem(SubsystemType::shields, new_name, new_tier, new_mass, new_dur, new_power),
+    Shields(index_t new_index, std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur,
+            int32_t new_power, uint8_t new_damage_reduction, uint16_t new_max_strength, uint16_t new_recharge_rate):
+        Subsystem(SubsystemType::shields, new_index, new_name, new_tier, new_mass, new_dur, new_power),
         damage_reduction(new_damage_reduction),
         max_strength(new_max_strength),
         recharge_rate(new_recharge_rate) { };

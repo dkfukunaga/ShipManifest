@@ -18,10 +18,11 @@ struct Component : DataRecord {
     int32_t             power           = 0;
 
     Component() = delete;
-    explicit Component(RecordType new_type):
-        DataRecord(new_type) { };
-    Component(RecordType new_type, std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur, int32_t new_power):
-        DataRecord(new_type),
+    explicit Component(RecordType new_type, index_t new_index):
+        DataRecord(new_type, new_index) { };
+    Component(RecordType new_type, index_t new_index, std::string new_name, uint8_t new_tier,
+              uint16_t new_mass, uint16_t new_dur, int32_t new_power):
+        DataRecord(new_type, new_index),
         name(new_name),
         tier(new_tier),
         mass(new_mass),
@@ -33,8 +34,8 @@ struct Component : DataRecord {
 
     recsize_t           getSize() const;
 protected:
-    void                writeHeader(DataFile &file, index_t index, recsize_t size, offset_t offset) const;
-    index_t             readHeader(DataFile &file);
+    void                writeHeader(DataFile &file, recsize_t size, offset_t offset) const;
+    DataRecordHeader*   readHeader(DataFile &file);
     void                serializeData(DataFile &file) const;
     void                deserializeData(DataFile &file);
 };

@@ -36,12 +36,12 @@ struct Weapon : Component {
     int32_t             range           = 0;
 
     explicit Weapon(WeaponType new_type):
-        Component(RecordType::weapon),
+        Component(RecordType::weapon, 0),
         type(new_type) { };
-    Weapon(WeaponType new_type, std::string new_name, uint8_t new_tier, uint16_t new_mass,
-           uint16_t new_dur, int32_t new_power, WeaponSize new_size, DamageType new_dmg_type,
-           int32_t new_damage, int32_t new_range):
-        Component(RecordType::weapon, new_name, new_tier, new_mass, new_dur, new_power),
+    Weapon(WeaponType new_type, index_t new_index, std::string new_name, uint8_t new_tier,
+           uint16_t new_mass, uint16_t new_dur, int32_t new_power, WeaponSize new_size,
+           DamageType new_dmg_type, int32_t new_damage, int32_t new_range):
+        Component(RecordType::weapon, new_index, new_name, new_tier, new_mass, new_dur, new_power),
         type(new_type),
         size_class(new_size),
         damage_type(new_dmg_type),
@@ -60,10 +60,10 @@ struct MassDriver : Weapon {
 
     MassDriver():
         Weapon(WeaponType::mass_driver) { };
-    MassDriver(std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur, int32_t new_power,
-               WeaponSize new_size, DamageType new_dmg_type, int32_t new_damage, int32_t new_range,
+    MassDriver(index_t new_index, std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur, 
+               int32_t new_power, WeaponSize new_size, DamageType new_dmg_type, int32_t new_damage, int32_t new_range,
                uint32_t new_vel, uint32_t new_ammo_cap):
-        Weapon(WeaponType::mass_driver, new_name, new_tier, new_mass, new_dur, new_power, new_size,
+        Weapon(WeaponType::mass_driver, new_index, new_name, new_tier, new_mass, new_dur, new_power, new_size,
                new_dmg_type, new_damage, new_range),
         velocity(new_vel),
         ammo_capacity(new_ammo_cap) { };
@@ -82,10 +82,10 @@ struct Beam : Weapon {
 
     Beam():
         Weapon(WeaponType::beam) { };
-    Beam(std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur, int32_t new_power,
-            WeaponSize new_size, DamageType new_dmg_type, int32_t new_damage, int32_t new_range,
+    Beam(index_t new_index, std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur, 
+            int32_t new_power, WeaponSize new_size, DamageType new_dmg_type, int32_t new_damage, int32_t new_range,
             uint8_t new_shield_penetration, uint8_t new_range_pen, uint16_t new_cap_charge):
-        Weapon(WeaponType::beam, new_name, new_tier, new_mass, new_dur, new_power, new_size,
+        Weapon(WeaponType::beam, new_index, new_name, new_tier, new_mass, new_dur, new_power, new_size,
                new_dmg_type, new_damage, new_range),
         shield_penetration(new_shield_penetration),
         range_penalty(new_range_pen),
@@ -105,10 +105,10 @@ struct Missile : Weapon {
 
     Missile():
         Weapon(WeaponType::missile) { };
-    Missile(std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur, int32_t new_power,
-            WeaponSize new_size, DamageType new_dmg_type, int32_t new_damage, int32_t new_range,
+    Missile(index_t new_index, std::string new_name, uint8_t new_tier, uint16_t new_mass, uint16_t new_dur, 
+            int32_t new_power, WeaponSize new_size, DamageType new_dmg_type, int32_t new_damage, int32_t new_range,
             uint32_t new_vel, uint16_t new_evation, uint16_t new_tracking):
-        Weapon(WeaponType::missile, new_name, new_tier, new_mass, new_dur, new_power, new_size,
+        Weapon(WeaponType::missile, new_index, new_name, new_tier, new_mass, new_dur, new_power, new_size,
                new_dmg_type, new_damage, new_range),
         velocity(new_vel),
         evasion(new_evation),
