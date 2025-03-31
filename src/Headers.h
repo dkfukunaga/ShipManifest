@@ -18,10 +18,10 @@ typedef uint64_t    filesize_t;     // file size in bytes
 // File status flags
 enum class FileFlags : uint8_t {
     good            = 0b00000001,   // no errors
-    modified        = 0b00000010,   // file has been modifed
-    rebuild_index   = 0b00000100,   // index needs rebuild
-    sort            = 0b00001000,   // data needs resort
-    open            = 0b00010000,   // file is open
+    open            = 0b00000010,   // file is open
+    read            = 0b00000100,   // file open for reading
+    write           = 0b00001000,   // file open for writing
+    rebuild         = 0b00010000,   // data needs to be resorted and index rebuilt
     bad             = 0b10000000,   // unspecified error
 };
 
@@ -114,7 +114,7 @@ struct FileHeader {
 
 // Section header
 struct SectionHeader {
-    secsize_t       size;         // size of section in bytes, excluding header
+    secsize_t       size;           // size of section in bytes, excluding header
     SectionType     type;           // type of section
 
     offset_t        serialize(DataFile &file);
@@ -126,7 +126,7 @@ struct SectionHeader {
 
 // Table header
 struct TableHeader {
-    secsize_t       size;         // size of table in bytes, excluding header
+    secsize_t       size;           // size of table in bytes, excluding header
     DataType        type;           // type of data in table
     count_t         count;          // count of records in table
 

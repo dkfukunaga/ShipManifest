@@ -20,3 +20,76 @@ x components
 - ship classes
 - ships
 
+sorting:
+- type
+- tier
+- name
+
+
+Database:
+- effectively a wrapper for DataFile
+- contains
+    - DataFile
+    - offsets:
+        - Data table offset(s)
+        - Index table offset(s)
+        - EOF offset
+    - index(es)
+- does
+    - open/close DataFile
+        - read/write FileHeader
+        - read/write SectionHeader
+        - read/write TableHeader
+        - verify filetype
+        - create and initialize new file if necessary
+            - (probably shouldn't overwrite existing files)
+            - FileHeader
+            - SectionHeader (data section)
+            - TableHeader
+            - build Index as records written to file
+        - update headers:
+            - flags
+            - size
+            - count
+    - read/write DataRecord
+    - resort DataRecords/rebuild Index
+
+
+
+file truncation example from chatgpt:
+
+#include <iostream>
+#include <fstream>
+#include <io.h>    // For _chsize() on Windows
+#include <fcntl.h> // For file control options
+
+int main() {
+    const char* filename = "data.bin";
+    std::fstream file(filename, std::ios::in | std::ios::out | std::ios::binary);
+    
+    if (!file) {
+        std::cerr << "Error opening file!" << std::endl;
+        return 1;
+    }
+
+    // Get the file descriptor from the fstream object
+    int fd = _fileno(file.native_handle());
+
+    // Move to the position you want to truncate the file to
+    file.seekp(100, std::ios::beg); // Truncate to 100 bytes
+
+    // Truncate the file using _chsize()
+    if (_chsize(fd, 100) != 0) {
+        std::cerr << "Error truncating file!" << std::endl;
+        return 1;
+    }
+
+    file.close();
+
+    std::cout << "File truncated successfully!" << std::endl;
+    return 0;
+}
+
+
+
+
