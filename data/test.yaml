@@ -1,0 +1,19 @@
+---
+
+Subsystems:
+  Reactors:
+    - test1:
+        name: test_1
+        tier: 1
+    - test2:
+        name: test_1
+        tier: 1
+  Thrusters:
+  FTLdrives:
+  Computers:
+  Armors:
+  Shields:
+  Weapons:
+
+
+...
