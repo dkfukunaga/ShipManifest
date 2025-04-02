@@ -19,22 +19,22 @@ void Database::updateFileSize(DataFile &file, filesize_t size_adj) {
     header.serialize(file, 0);
 }
 
-void Database::writeFileHeader(DataFile &file, FileType file_type, filesize_t size, offset_t index_offset) {
+void Database::writeFileHeader(DataFile &file, FileType file_type, filesize_t len, offset_t index_offset) {
     FileHeader header{
         .sig            = FileSig::ship_registry,
         .flags          = FileFlags::good,
         .version        = default_db_version,
         .type           = file_type,
-        .size           = size,
+        .size           = sizeof(header) + len,
         .index_offset   = index_offset
     };
 
     header.serialize(file, 0);
 }
 
-void Database::writeSectiontHeader(DataFile &file, offset_t pos, SectionType sec_type, secsize_t size) {
+void Database::writeSectiontHeader(DataFile &file, offset_t pos, SectionType sec_type, secsize_t len) {
     SectionHeader header{
-        .size = size,
+        .size = len,
         .type = sec_type
     };
 

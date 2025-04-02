@@ -34,7 +34,7 @@ struct Component : DataRecord {
 
     recsize_t           getSize() const;
 protected:
-    void                writeHeader(DataFile &file, recsize_t size, offset_t redirect) const;
+    void                writeHeader(DataFile &file, recsize_t size, offset_t offset) const;
     DataRecordHeader*   readHeader(DataFile &file);
     void                serializeData(DataFile &file) const;
     void                deserializeData(DataFile &file);

@@ -32,7 +32,7 @@ struct DataRecord {
     bool                        deserialize(DataFile &file);
     bool                        deserialize(DataFile &file, int64_t pos);
 protected:
-    virtual void                writeHeader(DataFile &file, recsize_t size, offset_t redirect) const = 0;
+    virtual void                writeHeader(DataFile &file, index_t index, recsize_t size, offset_t redirect) const = 0;
     virtual void                serializeData(DataFile &file) const = 0;
     virtual DataRecordHeader*   readHeader(DataFile &file) = 0;
     virtual void                deserializeData(DataFile &file) = 0;
@@ -46,7 +46,7 @@ inline offset_t DataRecord::serialize(DataFile &file, index_t index, offset_t re
 
     offset_t record_offset = file.getWritePos();
 
-    writeHeader(file, getSize(), redirect);
+    writeHeader(file, index, getSize(), redirect);
     serializeData(file);
     
     return record_offset;
