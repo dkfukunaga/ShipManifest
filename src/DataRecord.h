@@ -23,12 +23,12 @@ struct DataRecord {
     virtual             ~DataRecord() = default;
     virtual recsize_t   getSize() const = 0;
 
-    offset_t            serialize(DataFile &file, index_t index, offset_t redirect) const;
-    offset_t            serialize(DataFile &file, index_t index, offset_t redirect, int64_t pos) const;
+    void                serialize(DataFile &file, index_t index, offset_t offset) const;
+    void                serialize(DataFile &file, index_t index, offset_t offset, int64_t pos) const;
     index_t             deserialize(DataFile &file);
     index_t             deserialize(DataFile &file, int64_t pos);
 protected:
-    virtual void        writeHeader(DataFile &file, index_t index, recsize_t size, offset_t redirect) const = 0;
+    virtual void        writeHeader(DataFile &file, index_t index, recsize_t size, offset_t offset) const = 0;
     virtual void        serializeData(DataFile &file) const = 0;
     virtual index_t     readHeader(DataFile &file) = 0;
     virtual void        deserializeData(DataFile &file) = 0;
@@ -37,24 +37,20 @@ protected:
 
 inline offset_t DataRecord::serialize(DataFile &file, index_t index, offset_t redirect) const {
     if (!file.isOpen()) {
-        return 0;
+        return;
     }
 
-    offset_t record_offset = file.getWritePos();
-
-    writeHeader(file, index, getSize(), redirect);
+    writeHeader(file, index, getSize(), offset);
     serializeData(file);
-    
-    return record_offset;
 }
 
 inline offset_t DataRecord::serialize(DataFile &file, index_t index, offset_t redirect, int64_t pos) const {
     if (!file.isOpen()) {
-        return 0;
+        return;
     }
     file.setWritePos(pos);
 
-    return serialize(file, index, redirect);
+    serialize(file, index, offset);
 }
 
 inline index_t DataRecord::deserialize(DataFile &file) {
