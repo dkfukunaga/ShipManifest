@@ -2,7 +2,7 @@
 #ifndef SHIP_WEAPON_H
 #define SHIP_WEAPON_H
 
-#include "..\DataFile\src\DataFile.h"
+#include "DataFile.h"
 #include "Headers.h"
 #include "DataRecord.h"
 #include "Component.h"

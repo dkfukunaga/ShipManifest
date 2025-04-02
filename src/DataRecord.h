@@ -3,7 +3,7 @@
 #ifndef DATA_FILE_RECORD_H
 #define DATA_FILE_RECORD_H
 
-#include "..\DataFile\src\DataFile.h"
+#include "DataFile.h"
 #include "Headers.h"
 #include <cstdint>
 

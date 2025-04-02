@@ -3,7 +3,7 @@
 #ifndef SHIP_SUBSYSTEM_H
 #define SHIP_SUBSYSTEM_H
 
-#include "..\DataFile\src\DataFile.h"
+#include "DataFile.h"
 #include "Headers.h"
 #include "DataRecord.h"
 #include "Component.h"
