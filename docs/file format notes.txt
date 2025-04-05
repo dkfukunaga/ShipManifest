@@ -1,3 +1,83 @@
+META DATA
+=================
+[metadata]
+last_uid = 0
+version = 1
+
+[files]
+weapons = weapondb
+officers = officerdb
+shipclasses = shipclassdb
+ships = shipdb
+
+
+
+
+
+File Type
+========================
+Index               1
+Data                2
+
+Record Type
+========================
+Ship                1
+Ship Class          2
+Weapon              3
+Officer             5
+
+
+FILE HEADER
+Field Name          Size        Description
+=============================================================
+Magic Number        8 bytes     x0CA7CAFE
+File Type           2 bytes     index or data
+Record Type         2 bytes     Ship, Weapon, etc.
+Flags               2 bytes     reserved for future use
+Version             2 bytes     file version
+
+Data Offset         4 bytes     Byte offset of first data record
+Free List Head      4 bytes     Byte offset of first free space
+Free List Size      4 bytes     size of free list
+File Size           4 bytes     total file size
+
+Time Created        8 bytes     UNIX epoch time
+Time modified       8 bytes     UNIX epoch time
+
+Reserved           16 bytes     reserved for future use
+=============================================================
+Total Size         64 bytes
+
+
+
+RECORD HEADER
+Field Name          Size        Description
+=============================================================
+Status Flag         2 bytes     active, deleted
+Padding             2 bytes
+Record Size         4 bytes     size of record
+Next Free           4 bytes     offset of next free record
+Reserved            4 bytes
+=============================================================
+Total Size         16 bytes
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OLD:
+
+
+
 Ships
 ShipClasses
 Subsystems
@@ -69,7 +149,7 @@ uint8_t[2]
 FILE HEADER
 ----
 10  FileSig         sig             // file signature
-1	FileFlags       flags           // file status flags
+1   FileFlags       flags           // file status flags
 1   char            version         // version number
 4   FileType        type            // file type
 4   uint32_t        size            // size of file in bytes
