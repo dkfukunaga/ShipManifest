@@ -12,8 +12,8 @@ public:
     virtual             ~Serializable() = default;
     virtual uint32_t    getSize() const = 0;
 
-    virtual uint32_t    serialize(DataFile &file) const;
-    virtual bool        deserialize(DataFile &file);
+    virtual uint32_t    serialize(DataFile &file) const = 0;
+    virtual bool        deserialize(DataFile &file) = 0;
 };
 
 
