@@ -1,0 +1,125 @@
+
+
+Ship
+====
+Type         Size   Name                    Notes
+-----------  ----   -----------------       -------------------------------------------
+index_t        4    ship_id                 PRIMARY KEY
+string       var    ship_name               UNIQUE, null-terminated
+index_t        4    ship_class_id           FOREIGN KEY -> ShipClass.class_id
+
+ShipClass
+=========
+Type         Size   Name                    Notes
+-----------  ----   -----------------       -------------------------------------------
+index_t        4    class_id                PRIMARY KEY
+string       var    class_name              UNIQUE, null-terminated
+uint32_t       4    class_crew
+ShipType_t     4    class_type              enum (corvette, destroyer, etc.)
+
+Officer
+=======
+Type         Size   Name                    Notes
+-----------  ----   -----------------       -------------------------------------------
+index_t        4    officer_id              PRIMARY KEY
+string       var    officer_name_last       null-terminated
+string       var    officer_name_first      null-terminated
+OffRank_t      4    officer_rank            enum (lieutenant, captain, etc.)
+
+OfficerPosition
+===============
+Type         Size   Name                    Notes
+-----------  ----   -----------------       -------------------------------------------
+index_t        4    officer_pos_id          PRIMARY KEY
+ShipDept_t     4    officer_dept            enum (operations, engineering, etc.)
+string       var    officer_title           null-terminated
+
+
+ShipClassOfficers
+=================
+Type         Size   Name                    Notes
+-----------  ----   -----------------       -------------------------------------------
+index_t        4    ship_class_id           PRIMARY KEY p1, FOREIGN KEY -> ShipClass.class_id
+index_t        4    officer_pos_id          PRIMARY KEY p2, FOREIGN KEY -> OfficerPosition.officer_pos_id
+uint32_t       4    position_count
+
+ShipOfficers
+============
+Type         Size   Name                    Notes
+-----------  ----   -----------------       -------------------------------------------
+index_t        4    ship_id                 PRIMARY KEY p1, FOREIGN KEY -> Ship.ship_id
+index_t        4    officer_pos_id          PRIMARY KEY p2, FOREIGN KEY -> OfficerPosition.officer_pos_id
+uint32_t       4    slot_index              PRIMARY KEY p3
+index_t        4    officer_id              FOREIGN KEY -> Officer.officer_id, 0 = vacant
+
+
+Enumerations
+============
+
+ShipType_t (uint32_t):
+    1 = Corvette
+    2 = Frigate
+    3 = Destroyer
+    4 = Light Cruiser
+    5 = Heavy Cruiser
+    6 = Battleship
+
+OffRank_t (uint32_t):
+    0 = N/A
+    1 = Ensign
+    2 = Sub-Lieutenant
+    3 = Lieutenant
+    4 = Sub-Commander
+    5 = Commander
+    6 = Captain
+
+ShipDept_t (uint32_t):
+    1 = Command
+    2 = Operations
+    3 = Engineering
+    4 = Navigation
+    5 = Weapons
+
+
+
+
+
+
+
+
+
+File Structure:
+===============
+
+[File Header]
+- Magic number/version
+- Page size (4096)
+- Root page IDs for system catalogs
+- Next available page ID
+
+[System Catalog Pages]
+- Table: sys_tables (table_id, table_name, record_size, root_page_id)
+- Table: sys_columns (table_id, column_name, offset, type, size, constraints)
+- Table: sys_indexes (index_id, table_id, column_name, root_page_id)
+- Table: sys_enums (enum_name, value, label)
+
+[Data Pages]
+- Your actual Ship, Officer, etc. tables
+- B+ tree index pages
+
+
+
+
+
+
+
+
+FileHeader
+
+PageHeader
+    page_type // internal, leaf
+
+B+ tree
+doubly linked list of leaf nodes
+slotted page leaf pages
+
